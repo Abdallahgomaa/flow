@@ -1,30 +1,40 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:flow/app/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flow/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test('theme mode controller starts on system', () {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(container.read(themeModeControllerProvider), ThemeMode.system);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  test('cycle walks system -> light -> dark -> system', () {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+    final ThemeModeController controller = container.read(
+      themeModeControllerProvider.notifier,
+    );
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    controller.cycle();
+    expect(container.read(themeModeControllerProvider), ThemeMode.light);
+
+    controller.cycle();
+    expect(container.read(themeModeControllerProvider), ThemeMode.dark);
+
+    controller.cycle();
+    expect(container.read(themeModeControllerProvider), ThemeMode.system);
+  });
+
+  test('setMode applies an explicit theme', () {
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    container
+        .read(themeModeControllerProvider.notifier)
+        .setMode(ThemeMode.dark);
+    expect(container.read(themeModeControllerProvider), ThemeMode.dark);
   });
 }
