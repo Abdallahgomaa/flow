@@ -260,6 +260,66 @@ abstract class AppLocalizations {
   /// **'Name or barcode'**
   String get productSearchHint;
 
+  /// No description provided for @searchResultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches: {count}'**
+  String searchResultsCount(int count);
+
+  /// No description provided for @searchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No products found'**
+  String get searchNoResults;
+
+  /// No description provided for @demoProductMilk.
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh milk 1L'**
+  String get demoProductMilk;
+
+  /// No description provided for @demoProductBread.
+  ///
+  /// In en, this message translates to:
+  /// **'Baladi bread'**
+  String get demoProductBread;
+
+  /// No description provided for @demoProductRice.
+  ///
+  /// In en, this message translates to:
+  /// **'Egyptian rice 1kg'**
+  String get demoProductRice;
+
+  /// No description provided for @demoProductTea.
+  ///
+  /// In en, this message translates to:
+  /// **'Tea bags (100)'**
+  String get demoProductTea;
+
+  /// No description provided for @demoProductOil.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunflower oil 1L'**
+  String get demoProductOil;
+
+  /// No description provided for @demoProductSugar.
+  ///
+  /// In en, this message translates to:
+  /// **'Sugar 1kg'**
+  String get demoProductSugar;
+
+  /// No description provided for @demoProductWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Mineral water 1.5L'**
+  String get demoProductWater;
+
+  /// No description provided for @demoProductSoap.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand soap 500ml'**
+  String get demoProductSoap;
+
   /// No description provided for @devScreenTitle.
   ///
   /// In en, this message translates to:
@@ -409,6 +469,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A required device feature is unavailable.'**
   String get errorHardware;
+
+  /// No description provided for @settingsBusinessSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Business profile'**
+  String get settingsBusinessSectionTitle;
+
+  /// No description provided for @settingsBusinessSectionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Printed on receipts and reports'**
+  String get settingsBusinessSectionSubtitle;
+
+  /// No description provided for @settingsNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Business name'**
+  String get settingsNameLabel;
+
+  /// No description provided for @settingsPhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get settingsPhoneLabel;
+
+  /// No description provided for @settingsAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get settingsAddressLabel;
+
+  /// No description provided for @settingsTaxRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax rate'**
+  String get settingsTaxRateLabel;
+
+  /// No description provided for @settingsCurrencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get settingsCurrencyLabel;
+
+  /// No description provided for @settingsReceiptFooterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt footer'**
+  String get settingsReceiptFooterLabel;
+
+  /// No description provided for @settingsAppearanceSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance and language'**
+  String get settingsAppearanceSectionTitle;
+
+  /// No description provided for @settingsAppearanceSectionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved on this device'**
+  String get settingsAppearanceSectionSubtitle;
+
+  /// No description provided for @settingsThemeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsThemeLabel;
+
+  /// No description provided for @settingsLanguageSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get settingsLanguageSystem;
+
+  /// No description provided for @settingsDiscard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get settingsDiscard;
+
+  /// No description provided for @settingsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get settingsSaved;
+
+  /// No description provided for @settingsSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save. Please try again.'**
+  String get settingsSaveFailed;
+
+  /// No description provided for @settingsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the saved settings.'**
+  String get settingsLoadFailed;
+
+  /// No description provided for @settingsNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a business name.'**
+  String get settingsNameRequired;
+
+  /// No description provided for @settingsTaxRateInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a tax rate between 0 and 100.'**
+  String get settingsTaxRateInvalid;
 }
 
 class _AppLocalizationsDelegate

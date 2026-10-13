@@ -91,6 +91,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String get productSearchHint => 'الاسم أو الباركود';
 
   @override
+  String searchResultsCount(int count) {
+    return 'النتائج: $count';
+  }
+
+  @override
+  String get searchNoResults => 'لا توجد نتائج';
+
+  @override
+  String get demoProductMilk => 'حليب طازج 1 لتر';
+
+  @override
+  String get demoProductBread => 'خبز بلدي';
+
+  @override
+  String get demoProductRice => 'أرز مصري 1 كجم';
+
+  @override
+  String get demoProductTea => 'أكياس شاي (100)';
+
+  @override
+  String get demoProductOil => 'زيت عباد الشمس 1 لتر';
+
+  @override
+  String get demoProductSugar => 'سكر 1 كجم';
+
+  @override
+  String get demoProductWater => 'مياه معدنية 1.5 لتر';
+
+  @override
+  String get demoProductSoap => 'صابون يدان 500 مل';
+
+  @override
   String get devScreenTitle => 'أدوات المطوّر';
 
   @override
@@ -165,4 +197,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errorHardware => 'ميزة مطلوبة في الجهاز غير متوفّرة.';
+
+  @override
+  String get settingsBusinessSectionTitle => 'بيانات النشاط';
+
+  @override
+  String get settingsBusinessSectionSubtitle => 'تظهر في الفواتير والتقارير';
+
+  @override
+  String get settingsNameLabel => 'اسم النشاط';
+
+  @override
+  String get settingsPhoneLabel => 'رقم الهاتف';
+
+  @override
+  String get settingsAddressLabel => 'العنوان';
+
+  @override
+  String get settingsTaxRateLabel => 'نسبة الضريبة';
+
+  @override
+  String get settingsCurrencyLabel => 'العملة';
+
+  @override
+  String get settingsReceiptFooterLabel => 'تذييل الفاتورة';
+
+  @override
+  String get settingsAppearanceSectionTitle => 'المظهر واللغة';
+
+  @override
+  String get settingsAppearanceSectionSubtitle => 'تُحفظ على هذا الجهاز';
+
+  @override
+  String get settingsThemeLabel => 'المظهر';
+
+  @override
+  String get settingsLanguageSystem => 'لغة الجهاز';
+
+  @override
+  String get settingsDiscard => 'تراجع';
+
+  @override
+  String get settingsSaved => 'تم الحفظ';
+
+  @override
+  String get settingsSaveFailed => 'تعذّر الحفظ. حاول مرة أخرى.';
+
+  @override
+  String get settingsLoadFailed => 'تعذّر تحميل الإعدادات المحفوظة.';
+
+  @override
+  String get settingsNameRequired => 'أدخل اسم النشاط.';
+
+  @override
+  String get settingsTaxRateInvalid => 'أدخل نسبة ضريبة بين 0 و100.';
 }

@@ -12,13 +12,13 @@
 
 | الحقل | القيمة |
 |---|---|
-| آخر تحديث | 2026-10-13 |
+| آخر تحديث | 2026-10-14 |
 | آخر موديل عمل | Big Pickle (OpenCode) |
-| المرحلة الحالية | Phase 0 — الأساس |
-| الخطوة الحالية | `P0-11` |
-| عدد الخطوات المكتملة | 11 / 133 |
-| إصدار المخطط (schema_version) | 1.0 |
-| حالة البناء الأخيرة | `dart format` نظيف، `flutter analyze` = No issues found، `dart run tool/check_boundaries.dart` = Boundary check passed، `flutter test` = 122/122 نجحت، `build_runner` و`flutter gen-l10n` نجحا |
+| المرحلة الحالية | Phase 1 — الهوية والصلاحيات (قيد التنفيذ) |
+| الخطوة الحالية | `P1-05` |
+| عدد الخطوات المكتملة | 22 / 133 |
+| إصدار المخطط (schema_version) | Drift: 4 (بلا تغيير في `P1-04`) |
+| حالة البناء الأخيرة | `dart format` = 175 ملفًا بلا تغيير، `flutter analyze` = No issues found، `dart run tool/check_boundaries.dart` = Boundary check passed، `flutter test` = 378/378 نجحت، `build_runner` نجح |
 
 ---
 
@@ -49,6 +49,20 @@
 
 - [DONE] `P0-10` — المظهر والقالب المتكيّف: `go_router` (StatefulShellRoute) + شريط سفلي للهاتف / جانبي للتابلت وسطح المكتب + شاشة `/dev` (ملعب Money/Tax) — الملفات: `lib/app/router/router.dart`, `lib/app/shell/{app_destination,adaptive_shell,placeholder_page,dev_screen}.dart` — الاختبارات: `test/app/router/app_router_test.dart`, `test/app/shell/app_destination_test.dart` — 2026-10-13 — Big Pickle
 
+- [DONE] `P0-11` — استكشاف SQLite/SQLCipher/FTS5 (Spike): القياس `SQLITE_VERSION=3.53.4`، `cipher_version` فارغ على المضيف (SQLCipher يعمل داخل بناء التطبيق فقط)، FTS5 مدعوم — الملفات: `docs/P0-11_sqlite_spike.md` (مع مسبار مؤقّت في `test/spike` حُذف) — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-12` — `AppDatabase` (Drift) + اتصال قابل للحقن (`DatabaseConnector`) + PRAGMA (WAL/foreign_keys/secure_delete) + جدول `app_settings`؛ مغلّف الإنتاج `SqlCipherDatabaseConnector` (PRAGMA key أولًا) — الملفات: `lib/core/database/{app_database,database_connector,database_pragmas,database,tables/app_settings}.dart`, `lib/app/database/sqlcipher_database_connector.dart` — الاختبارات: `test/core/database/app_database_test.dart` — التوثيق: `docs/P0-12_database.md`, `docs/DEVELOPMENT_ENVIRONMENT.md` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-13` — أساس الأمان: `KeyManager` (Argon2id → KEK، DEK عشوائي 32 بايت، تغليف AES-GCM، تخزين آمن) + `SecureStore` قابل للحقن؛ كلمة المرور الخاطئة مرفوضة وتغييرها يعيد تغليف نفس DEK — الملفات: `lib/core/security/{secure_store,in_memory_secure_store,key_manager,security}.dart`, `lib/app/security/flutter_secure_store.dart` — الاختبارات: `test/core/security/key_manager_test.dart` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-14` — وحدة العمل: `UnitOfWork` + `DriftUnitOfWork` (معاملة Drift واحدة تغلّف المستودعات؛ أي استثناء = تراجع كامل) — الملفات: `lib/core/database/unit_of_work.dart`, `lib/core/database/database.dart` — الاختبارات: `test/core/database/unit_of_work_test.dart` (تثبيت الكتابة عند النجاح + تراجع كامل عند الاستثناء) — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-15` — سجل التدقيق: جدول `audit_log` (مخطط v2) + Triggerان يمنعان UPDATE/DELETE + `AuditService.append` بسلسلة تجزئة SHA-256 (prev_hash/hash، بذرة أصفار) داخل `UnitOfWork` — الملفات: `lib/core/database/{tables/audit_log,audit_service,app_database,database}.dart` — الاختبارات: `test/core/database/audit_service_test.dart` — التوثيق: `docs/P0-15_audit.md` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-16` — فحص السلامة: `AuditService.verifyChain()` يكشف أول حلقة مكسورة + نقاط تحقق (`audit_checkpoints`، مخطط v3) + Triggerان إضافيان يمنعان تعديلها؛ اختبار عبث بتعديل صف/ذيل السلسلة — الملفات: `lib/core/database/{audit_chain_status,tables/audit_checkpoints,audit_service,app_database,database}.dart` — الاختبارات: `test/core/database/audit_chain_test.dart` — التوثيق: `docs/P0-16_chain.md` — بوابة G0 مكتملة — 2026-10-13 — Big Pickle
+
+- [DONE] `EXTRA-HWID` — وحدة الترخيص المحلي (HWID): بصمة الجهاز `HardwareId` (SHA-256 مُنطَّق) + `LicenseKey` (`FLOW1.<base64url(payload)>.<base64url(sig)>`) + `LicenseVerifier` (توقيع Ed25519 + ربط الجهاز + الانتهاء) + `LicenseService` (`activate`/`load`/`deactivate` عبر `Result<T>`) — الملفات: `lib/core/licensing/{device_id_provider,hardware_id,license,license_key,license_verifier,license_store,license_service,licensing}.dart`، `lib/core/utils/canonical_json.dart`، `lib/app/licensing/{device_info_device_id_provider,secure_license_store}.dart` — الاختبارات: `test/core/licensing/{license_test,license_service_test}.dart` — التوثيق: `docs/EXTRA_hwid_licensing.md` — 2026-10-13 — Big Pickle
+
 - [DONE] `DAY-1` — **اليوم الأول: التأسيس المعماري ونظام التصميم** (يشمل الجزء المتعلّق بالمظهر من `P0-10` وجزء المسجّل من `P0-08`) — التفاصيل:
   - **هيكل Feature-First:** إنشاء `lib/app`, `lib/core`, `lib/features` (17 ميزة × `domain/data/presentation`), `lib/shared` مع `.gitkeep`.
   - **نظام التصميم:** `lib/app/theme/app_colors.dart`, `app_typography.dart`, `app_dimens.dart`, `app_theme_extension.dart`, `app_theme.dart`, `theme_provider.dart`.
@@ -59,30 +73,67 @@
   - الاختبارات: `test/app/theme/app_theme_test.dart`, `test/core/utils/logger_test.dart`, `test/shared/widgets/custom_button_test.dart`, `test/shared/widgets/custom_text_field_test.dart`, `test/shared/widgets/custom_card_test.dart`, `test/widget_test.dart`, `test/smoke_test.dart` — 2026-10-13 — Big Pickle
   - ✅ **التحقق اليدوي (T):** تم تشغيل التطبيق ومشاهدة واجهات نظام التصميم (CustomButton / CustomTextField / CustomCard + مبدّل الوضع الفاتح/الداكن) على المحاكي بنجاح — تحقّق من قِبل المستخدم في 2026-10-13.
 
+- [DONE] `DAY-3` — **ربط واجهات المستخدم بقاعدة البيانات (حفظ وتحديث حي)** على جدول `app_settings` الموجود — **بلا تغيير مخطط وبلا ترحيل** — التفاصيل:
+  - **ميزة الإعدادات كاملة:** `lib/features/settings/{domain,data,presentation}` — مفاتيح `SettingKeys`، كيان `BusinessProfile` (الضريبة `Rate` بلا `double`)، `AppPreferences`/`AppThemePreference`، واجهة `SettingsRepository`، حالات استخدام (`LoadBusinessProfile`, `SaveBusinessProfile` مع تحقق، `LoadAppPreferences`, `SaveThemePreference`, `SaveLanguagePreference`)، مستودع Drift مدقَّق `DriftSettingsRepository` (كتابة ذرّية داخل `UnitOfWork` + سجل تدقيق واحد لكل حفظ)، مزوّدات Riverpod، وشاشة `SettingsScreen` (ملف النشاط + العملة + المظهر + اللغة).
+  - **المزوّدات الأساسية:** `lib/core/database/database_providers.dart` (`databaseConnectorProvider` يُحقَن/يُستبدل في الاختبارات، `appDatabaseProvider`, `unitOfWorkProvider`, `auditServiceProvider`).
+  - **ربط الإقلاع والتوجيه:** `lib/bootstrap.dart` يفتح القاعدة المشفّرة ويهيّئ المزوّدات ويستعيد المظهر واللغة **قبل أول إطار**؛ `AppDestination.settings` يعرض `SettingsRoute` الحقيقي (`lib/app/settings/settings_route.dart`) بدل الشاشة البديلة.
+  - **استمرارية المظهر واللغة:** `theme_provider.dart` و`locale_provider.dart` يكتبان التفضيل في القاعدة (`setMode`/`setLocale`) ويُستعادان عبر `restore()` عند الإقلاع — فلا تضيع عند إغلاق التطبيق. (فشل الكتابة يُسجَّل تحذيرًا ولا يكسر تغيير المظهر/اللغة.)
+  - **ملاحظة أمنية مؤقّتة:** إلى حين واجهة الدخول (`P1-05`/`P1-11`) يُلفّ DEK بمفتاح مشتق من بصمة الجهاز (HWID)؛ وعند تعذّر فتح القاعدة يستمر التطبيق مع بطاقة «إعادة المحاولة» في شاشة الإعدادات بدل الانهيار.
+  - الملفات: `lib/core/database/database_providers.dart`, `lib/features/settings/domain/*`, `lib/features/settings/data/*`, `lib/features/settings/presentation/*`, `lib/app/settings/settings_route.dart`, `lib/app/theme/theme_provider.dart`, `lib/app/l10n/locale_provider.dart`, `lib/bootstrap.dart`, `lib/app/router/router.dart`, `lib/shared/l10n/{app_en,app_ar}.arb` — الاختبارات: `test/features/settings/{drift_settings_repository_test,settings_use_cases_test,settings_screen_test}.dart` — التوثيق: `docs/DAY-3_ui_wiring.md` — 2026-10-13 — Big Pickle
+  - **إصلاح تكامل مرافق (القاعدة 5):** ثُبِّت خطأ كامن في سلسلة التدقيق `P0-15`/`P0-16` (دقة الطابع الزمني) — التفاصيل في القسم 7.
+
+- [DONE] `P1-01` — **تعداد `Permission` + مصفوفة الأدوار الافتراضية (مالك، كاشير، مخزون، محاسب)** — **(Phase 1 — الهوية والصلاحيات)**:
+  - **الملفات:** `lib/features/auth/domain/permission.dart` (31 صلاحية مغلقة، كل واحدة بـ`code` ثابت + `Permission.fromCode`)، `lib/features/auth/domain/user_role.dart` (`UserRole` الأربعة + `UserRole.fromCode`)، `lib/features/auth/domain/role_matrix.dart` (واجهة `RoleMatrix` + `DefaultRoleMatrix`).
+  - **تصميم:** `RoleMatrix` واجهة (interface first) ليُستبدل تنفيذها بالأدوار المخصصة في `P1-14` دون لمس حالات الاستخدام؛ `permissionsFor` تعبير `switch` **شامل**، فإضافة دور جديد تُصبح خطأ تصريف لا منحًا صامتًا لصفر صلاحيات؛ المجموعات `const` وغير قابلة للتعديل.
+  - **الاختبارات:** `test/features/auth/domain/{permission,user_role,role_matrix}_test.dart` — **اختبار لكل خلية** (4 أدوار × 31 صلاحية = 124 خلية) + حراسة «المالك يملك كل الصلاحيات» + ثبات المجموعات. المجموع الكلي 318/318.
+  - **التوثيق:** `docs/P1-01_permissions.md` (المصفوفة كاملة + تبرير كل دور + الحرّاس المقصودون).
+  - ⚠️ **تحفّظ مقصود:** معيار القبول «تطابق مصفوفة PRD القسم 2 خلية بخلية» **غير قابل للتحقق** لأن وثيقة PRD غير موجودة في المستودع (يذكرها هذا الملف كمرجع خارجي). بموافقة مالك المشروع (2026-10-13) **اشتُقّت المصفوفة من المجالات الوظيفية**، وهي **مؤقتة بانتظار مصادقة PRD** وتُراجَع خلية بخلية عند توفّر الوثيقة. القرار مسجَّل أيضًا في القسم 7.
+  - 2026-10-13 — Big Pickle
+
+- [DONE] `P1-02` — **جداول `users` و`roles` + المستودعات + الترحيل الأول** — **(Phase 1 — الهوية والصلاحيات)**:
+  - **المخطط:** Drift v3 → v4. جدولان جديدان: `roles` (`code` PK، `name`، `description`، `is_built_in`، `disabled_at`، `created_at`، `updated_at`) و`users` (`id` PK، `username` فريد، `display_name`، `role_code` يشير إلى `roles.code`، `password_hash`، `pin_hash`، `disabled_at`، `created_at`، `updated_at`). **تعطيل منطقي فقط، بلا حذف نهائي.**
+  - **الترحيل:** فرع `from < 4` في `onUpgrade` ينشئ `roles` ثم `users` (الترتيب مهم بسبب المفتاح الأجنبي)، ثم يُعيد تفعيل حرّاس الجداول اللاحقة للإلحاق.
+  - **آلية اللقطات (جديدة ومُعمَّمة):** `drift_schemas/drift_schema_v3.json` (الأساس قبل التغيير) و`drift_schema_v4.json`، مع `drift_dev schema generate` → `test/core/database/generated_migrations/`، واختبار `test/core/database/migration_test.dart` (ترقية v3→v4 + قاعدة جديدة مطابقة + بقاء حرّاس الإلحاق). استُثني مجلد الملفات المولَّدة من التحليل في `analysis_options.yaml`.
+  - **تسمية Drift:** أُضيف `@DataClassName('RoleRow')` و`@DataClassName('UserRow')` لتفادي التعارض مع كيانات `domain` (`Role`/`User`).
+  - **الطبقتان:** `domain/{role,user}.dart` + `domain/{role_repository,user_repository}.dart` + ست حالات استخدام في `domain/use_cases/` (قراءة/إنشاء/تعطيل فقط)، والتنفيذ في `data/{drift_role_repository,drift_user_repository}.dart` مع `data/auth_providers.dart`.
+  - **التدقيق (I):** كل كتابة داخل `unitOfWork.run` مع `auditService.append` في **نفس المعاملة**؛ كيان التدقيق `roles`/`users` مع `entityId`؛ التعطيل المكرَّر لا يكتب سطرًا (لا تغيير)؛ وحِمل التدقيق يخلو من PII (لا اسم دخول ولا تجزئة).
+  - **الاختبارات:** `test/features/auth/data/drift_role_repository_test.dart`، `test/features/auth/data/drift_user_repository_test.dart`، `test/features/auth/auth_use_cases_test.dart` — تشمل التفرّد، والدور المجهول، ورفض تعطيل الدور المدمج، وعدم الحذف، وسلامة سلسلة التدقيق. المجموع الكلي 358/358.
+  - 2026-10-13 — Big Pickle
+
+- [DONE] `P1-03` — **خدمة تجزئة كلمة المرور وPIN (Argon2id وملح لكل مستخدم)** — **(Phase 1 — الهوية والصلاحيات)**:
+  - **الواجهة (domain):** `lib/features/auth/domain/password_hasher.dart` — `abstract interface class PasswordHasher` بـ`hash` و`verify` والعودة `Result<T>` فقط، بلا كشف الخوارزمية للطبقات الأعلى؛ ثابتان لأكواد الفشل: `emptySecretCode` و`malformedHashCode`.
+  - **التنفيذ (data):** `lib/features/auth/data/argon2_password_hasher.dart` — `Argon2PasswordHasher` فوق `package:cryptography` (Argon2id) وبصيغة PHC: `$argon2id$v=19$m=16384,t=2,p=1$<salt>$<digest>`؛ ملح عشوائي 16 بايت من `Random.secure()` (قابل للحقن للاختبارات)؛ المقارنة **بزمن ثابت** (لا تكشف بادئة مطابقة)؛ `verify` يُعيد الاشتقاق دائمًا بمعاملات **المخزّنة داخل السلسلة** لا بالافتراضية، فالقيم القديمة تظل صالحة عند رفع المعاملات لاحقًا؛ لا يُسجَّل أي سر أو تجزئة أو ملح؛ الفشل التقني `CryptoFailure` والسر الفارغ `ValidationFailure` (لا يُخزَّن سر فارغ أصلًا).
+  - **العايرة الزمنية:** قياس فعلي على آلة المرجع عبر مسبار مؤقّت (`tool/_argon2_probe.dart`، حُذف بعد القياس): `(16384 KiB, iterations=2, parallelism=1)` = **231–313ms** (متوسط ≈272ms)، وهي الأقرب إلى ميزانية ~250ms على مسار Dart الخالص. الاختبارات تستخدم معاملات رخيصة (`256 KiB`، جولة واحدة) كما يفعل `KeyManager`.
+  - **المزوّد:** `passwordHasher` في `lib/features/auth/data/auth_providers.dart` (بـ`keepAlive`).
+  - **الاختبارات:** `test/features/auth/data/argon2_password_hasher_test.dart` — **11 اختبارًا**: ثبات المعاملات الافتراضية، تجزئة→تحقق ورفض كلمة خاطئة، المرشّح الفارغ = عدم تطابق لا خطأ، فريادة الملح لكل تجزئة، حقن `Random` للثبات الحتمي، ثبات صيغة PHC (ستة أجزاء)، عدم ظهور السر في الناتج، رفض السر الفارغ، صلاحية تجزئة بمعاملات أقدم، رفض القيم التالفة/الأجنبية بـ`malformedHashCode`، وحدّ زمني فضفاض لكلفة الإنتاج. المجموع الكلي 369/369.
+  - **ملاحظة تصميمية:** لا `Isolate.run` — الاشتقاق على خيط المستدعي كما يفعل `KeyManager` (نمط واحد للمشروع، بلا نمطٍ موازٍ)؛ على واجهة `P1-11` عرض تقدّم والانتظار بالـ`await`.
+  - **تحفّظ:** نطاق `P1-03` هو الخدمة فقط؛ لا مستهلك لها بعد (كتابة `users.password_hash`/`pin_hash` تأتي مع `P1-11`/`P1-14`).
+  - 2026-10-14 — Big Pickle
+
+- [DONE] `P1-04` — **`sessionProvider` (المستخدم، الدور، الصلاحيات، الوردية)** — **(Phase 1 — الهوية والصلاحيات)**:
+  - **الكيان (domain):** `lib/features/auth/domain/session_state.dart` — `SessionState` غير قابل للتعديل (`user`, `role`, `activeShiftId`, `isLocked`) مع `isSignedIn` و`hasOpenShift`؛ `role` يبقى معروفًا بعد القفل ليقدّم `P1-07` تبديلًا سريعًا لنفس الحساب، و`activeShiftId` **معرِّف فقط** لأن كيان الوردية يأتي في `P3-11`؛ و`lock()`/`withActiveShift()` تُعيدان `this` عند عدم وجود تغيير فلا إشعار عبثي للمستمعين.
+  - **المزوّد (data):** `lib/features/auth/data/session_notifier.dart` — `Session` (Riverpod، `keepAlive`) بعمليات صريحة: `signIn` و`signOut` و`lock` و`setActiveShift`؛ `signIn` يستبدل الحالة كاملة في إسناد واحد (لا حالة جزئية أبدًا) ويرفض الحساب المعطّل بـ`ValidationFailure(code: Session.disabledAccountCode)` بلا أي تغيير في الحالة؛ ورمز الدور غير المدمج ⇒ `role == null` ⇒ **صفر صلاحيات** (فشل مغلق بانتظار `P1-14`).
+  - **الصلاحيات مشتقّة لا مخزّنة:** `sessionPermissions` يقرأ المصفوفة **حيًّا** من `roleMatrixProvider` في كل قراءة، فلا يمكن أن تبقى صلاحية قديمة بعد تعديل المصفوفة، ولا يوجد نسخ يدوي للصلاحيات في أي مكان.
+  - **معيار القبول (A):** `lock()` يسحب كل الصلاحيات ويجعل `isSignedIn`/`hasOpenShift` خطأ مع الاحتفاظ بالحساب والدور والوردية للعرض فقط — «القفل يُبطل الجلسة» ✅.
+  - **حل الحدود (I):** `lib/features/auth/auth.dart` — **أول برميل (barrel) في المستودع** يُصدِّر السطح العام للميزة (`sessionProvider`، `sessionPermissionsProvider`، `roleMatrixProvider`، `SessionState`، `User`، `UserRole`، `Permission`، `RoleMatrix`، `PasswordHasher`)، وهو ما يجعل «يُستهلك من كل ميزة» ممكنًا دون خرق الحدود التي يفرضها `tool/check_boundaries.dart` ✅.
+  - **الاختبارات:** `test/features/auth/data/session_notifier_test.dart` — **9 اختبارات**: الحالة الابتدائية، الدخول واستنتاج الدور، **أن الصلاحيات تأتي من المصفوفة الحيّة لا من نسخة مخزّنة**، رفض الحساب المعطّل، دور غير مدمج بلا صلاحيات، الخروج، **القفل يُبطل الجلسة**، تبديل المستخدم بلا تسريب حالة، وفتح/إغلاق الوردية. المجموع الكلي 378/378.
+  - **تحفّظ:** المزوّد حالة نقية فقط (بلا واجهة وبلا `KeyManager` وبلا Drift)، ولم يُستهلك فعليًا بعد؛ أول مستهلك هو `P1-05` (شاشة الدخول) ثم `P1-09` (الحراس).
+  - 2026-10-14 — Big Pickle
+
 ### 1.2 المراحل قيد التنفيذ `[IN-PROGRESS]`
 
 > **خطوة واحدة فقط** (أو مجموعة متوازية معرَّفة صراحةً بعلامة ‖) في هذه الحالة في أي وقت.
 
-**`P0-02` — `analysis_options.yaml` (very_good_analysis) + قاعدة منع الاستيراد بين الميزات** — **(اليوم الثاني)**
+**`P1-05` — شاشة الدخول (كلمة مرور / PIN)** — **(Phase 1 — الهوية والصلاحيات)**
 
-- **الحالة:** لم يبدأ تنفيذها فعليًا (هي الخطوة النشطة التالية المباشرة).
+- **الحالة:** الخطوة النشطة التالية المباشرة (تلي إغلاق `P1-04`). لم يبدأ تنفيذها بعد.
 - **المطلوب لإتمامها:**
-  1. إضافة `very_good_analysis` (أو ضبط `flutter_lints` بصرامة مكافئة) مع قواعد lint إلزامية.
-  2. ضبط حدّ `analyzer` لمنع الاستيراد المباشر بين الميزات (`features/*/data` و`features/*/presentation` لا تُستورَد من ميزة أخرى) — عبر `custom_lint`/`import_lint` أو قاعدة مخصّصة.
-  3. إرجاع تحليل «صفر تحذيرات» على الكود الحالي (بما فيها ملفات اليوم الأول).
-- **معايير القبول:** يفشل التحليل عند إضافة استيراد مخالف تجريبيًا؛ لا تحذيرات على الكود الحالي.
-- **الربط مع السابق:** يعتمد على `P0-01` وهيكل `lib/features` المُنشأ في اليوم الأول.
+  1. شاشة دخول تختار الحساب (قائمة المستخدمين عبر `LoadUsers` أو اسم الدخول) وتتحقق بكلمة المرور أو PIN عبر `PasswordHasher` فقط — **ممنوع مقارنة أي سر داخل الواجهة**.
+  2. بدء الجلسة عبر `Session.signIn` بعد نجاح التحقق، وعرض سبب الرفض القادم من `Result` بلا كشف أي تفصيل حساس (لا تمييز بين مستخدم غير موجود وكلمة خاطئة).
+  3. التعامل مع الحساب المعطّل (`Session.disabledAccountCode`) ومع `KeyManager` (فتح القاعدة) كخطوة سابقة/موازية للدخول، مع رسائل من ARB (ar/en).
+  4. عرض تقدّم أثناء اشتقاق Argon2id (≈250ms) بلا حجب أي إطار، والاعتماد على قالب `P0-10` المتكيّف.
+- **معايير القبول (A):** FR-AUTH-002. **التجربة (T):** تجربة يدوية للدخول. **التكامل (I):** يعتمد على `KeyManager` لفتح القاعدة.
 - **ملاحظات تسليم للموديل التالي:** _(تُملأ عند التوقف)_
-
-- **طابور اليوم الثاني (يُنقل إليه واحدًا تلو الآخر بعد إتمام `P0-02`):**
-  1. `P0-02` — ضبط التحليل وحدود الاستيراد. ✅ **[DONE]**
-  2. `P0-03` — مسار CI (format, analyze, boundaries, test). ✅ **[DONE]**
-  3. `P0-04` — ملف `AGENTS.md` في الجذر. ✅ **[DONE]**
-  4. `P0-06` — `core/money`: كائن `Money` (أعداد صحيحة + عملة). ✅ **[DONE]**
-  5. `P0-07` — `Quantity` + حاسبات الضريبة والتقريب. ✅ **[DONE]**
-  6. `P0-08` — إكمال `core/utils`: `Clock` و`UUID v7`. ✅ **[DONE]**
-  7. `P0-09` — التوطين (ARB ar/en + دعم RTL + مبدّل اللغة). ✅ **[DONE]**
-  8. `P0-10` — إكمال `go_router` والقالب المتكيّف (هاتف/تابلت/سطح مكتب) وشاشة `/dev`. ✅ **[DONE]**
 
 ### 1.3 المراحل المتبقية `[PENDING]`
 
@@ -176,7 +227,7 @@
 
 ```bash
 dart format --set-exit-if-changed .
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 flutter analyze            # يجب: No issues found
 flutter test               # كامل المجموعة، وليس الخطوة الحالية فقط
 # عند تغيّر المخطط:
@@ -204,12 +255,12 @@ dart run drift_dev schema dump ... && flutter test test/migrations
 | [x] | P0-08 | `core/utils`: الساعة (Clock) وUUID v7 والمسجّل (Logger) المنزوع الحساسية | P0-01 | A: UUID مرتب زمنيًا؛ المسجّل لا يطبع payload؛ لا `DateTime.now()` خارج `SystemClock`. T: اختبارات وحدة. I: —. |
 | [x] | P0-09 | التوطين: ARB (ar/en) + دعم RTL + مبدّل اللغة | P0-01 | A: لا نصوص صلبة؛ تخطيط RTL سليم. T: اختبار تبديل اللغة (ar/en). I: —. |
 | [x] | P0-10 | المظهر (Theme) + القالب المتكيّف (هاتف/تابلت/سطح مكتب) + هيكل الموجّه `go_router` | P0-09 | A: 3 أحجام شاشة تعمل. T: اختبار الشريط السفلي/الجانبي + شاشة `/dev`. I: يستخدم ARB. |
-| [ ] | P0-11 | استكشاف (Spike): SQLCipher + FTS5 على Android وWindows (وiOS إن توفر) | P0-01 | A: تقرير توفر FTS5 وإصدار cipher لكل منصة. T: تشغيل فعلي. I: قرار موثّق (FTS5 أو بديل LIKE). |
-| [ ] | P0-12 | `AppDatabase` (Drift) + اتصال SQLCipher + إعدادات PRAGMA (WAL, foreign_keys, secure_delete) | P0-11 | A: يفشل المفتاح الخاطئ؛ `cipher_version` غير فارغ. T: محاولة فتح الملف بـ SQLite عادي تفشل. I: —. |
-| [ ] | P0-13 | `KeyManager`: Argon2id + DEK عشوائي + التغليف AES-GCM + `SecureStore` | P0-12 | A: كلمة مرور خاطئة مرفوضة؛ تغيير كلمة المرور يعيد تغليف DEK فقط. T: اختبارات وحدة + فتح/قفل. I: يغذّي P0-12. |
-| [ ] | P0-14 | `UnitOfWork` (معاملة واحدة تغلّف المستودعات) | P0-12 | A: استثناء = تراجع كامل. T: اختبار تراجع. I: —. |
-| [ ] | P0-15 | جدول `audit_log` + Triggers تمنع UPDATE/DELETE + `AuditService.append` بسلسلة تجزئة | P0-14, P0-08 | A: كل سجل يحمل prev_hash وhash. T: محاولة تعديل/حذف تفشل. I: يُستدعى داخل `UnitOfWork`. |
-| [ ] | P0-16 | `verifyChain()` + اختبار العبث + تجزئات نقاط التحقق | P0-15 | A: يكشف أول حلقة مكسورة. T: تعديل يدوي للملف ثم الكشف. I: —. **(بوابة G0)** |
+| [x] | P0-11 | استكشاف (Spike): SQLCipher + FTS5 على Android وWindows (وiOS إن توفر) | P0-01 | A: تقرير توفر FTS5 وإصدار cipher لكل منصة. T: تشغيل فعلي (`test/spike` مؤقت ثم حُذف). I: قرار موثّق في `docs/P0-11_sqlite_spike.md` — FTS5 متاح؛ SQLCipher يعمل في بناء التطبيق فقط لذا الاتصال قابل للحقن. |
+| [x] | P0-12 | `AppDatabase` (Drift) + اتصال SQLCipher + إعدادات PRAGMA (WAL, foreign_keys, secure_delete) | P0-11 | A: يفشل المفتاح الخاطئ؛ `cipher_version` غير فارغ. T: محاولة فتح الملف بـ SQLite عادي تفشل. I: —. |
+| [x] | P0-13 | `KeyManager`: Argon2id + DEK عشوائي + التغليف AES-GCM + `SecureStore` | P0-12 | A: كلمة مرور خاطئة مرفوضة؛ تغيير كلمة المرور يعيد تغليف DEK فقط. T: اختبارات وحدة + فتح/قفل. I: يغذّي P0-12. |
+| [x] | P0-14 | `UnitOfWork` (معاملة واحدة تغلّف المستودعات) | P0-12 | A: استثناء = تراجع كامل. T: اختبار تراجع. I: —. |
+| [x] | P0-15 | جدول `audit_log` + Triggers تمنع UPDATE/DELETE + `AuditService.append` بسلسلة تجزئة | P0-14, P0-08 | A: كل سجل يحمل prev_hash وhash. T: محاولة تعديل/حذف تفشل. I: يُستدعى داخل `UnitOfWork`. |
+| [x] | P0-16 | `verifyChain()` + اختبار العبث + تجزئات نقاط التحقق | P0-15 | A: يكشف أول حلقة مكسورة. T: تعديل يدوي للملف ثم الكشف. I: —. **(بوابة G0)** |
 
 **بوابة G0:** CI أخضر؛ قاعدة بيانات مشفّرة غير مقروءة بدون المفتاح؛ سلسلة التدقيق تكشف العبث؛ اللغتان وRTL يعملان.
 
@@ -217,10 +268,10 @@ dart run drift_dev schema dump ... && flutter test test/migrations
 
 | ☐ | ID | الخطوة | تعتمد على | A / T / I |
 |---|---|---|---|---|
-| [ ] | P1-01 | تعداد `Permission` + مصفوفة الأدوار الافتراضية (مالك، كاشير، مخزون، محاسب) | P0-05 | A: تطابق مصفوفة PRD القسم 2. T: اختبار لكل خلية في المصفوفة. I: —. |
-| [ ] | P1-02 | جداول users وroles + المستودعات + الترحيل الأول | P0-14, P0-15 | A: إنشاء/قراءة/تعطيل (بلا حذف نهائي). T: اختبارات بيانات. I: يكتب تدقيقًا لكل تغيير. |
-| [ ] | P1-03 | خدمة تجزئة كلمة المرور وPIN (Argon2id وملح لكل مستخدم) | P0-13 | A: لا تخزين صريح؛ زمن ~250ms. T: اختبار وحدة + قياس. I: —. |
-| [ ] | P1-04 | `sessionProvider` (المستخدم، الدور، الصلاحيات، الوردية) | P1-01, P1-02 | A: القفل يبطل الجلسة. T: اختبار مزوّد. I: يُستهلك من كل ميزة. |
+| [x] | P1-01 | تعداد `Permission` + مصفوفة الأدوار الافتراضية (مالك، كاشير، مخزون، محاسب) | P0-05 | A: تطابق مصفوفة PRD القسم 2 — ⚠️ **PRD غير موجود في المستودع**، لذلك اشتُقّت المصفوفة من المجالات الوظيفية بموافقة المالك (مؤقتة بانتظار المصادقة). T: اختبار لكل خلية في المصفوفة (124 خلية). I: —. |
+| [x] | P1-02 | جداول users وroles + المستودعات + الترحيل الأول | P0-14, P0-15 | A: إنشاء/قراءة/تعطيل (بلا حذف نهائي) ✅. T: اختبارات بيانات — مستودعا الأدوار والمستخدمين + حالات الاستخدام ✅. I: سطر تدقيق لكل تغيير في نفس المعاملة وسلامة السلسلة ✅. |
+| [x] | P1-03 | خدمة تجزئة كلمة المرور وPIN (Argon2id وملح لكل مستخدم) | P0-13 | A: واجهة نقية `PasswordHasher` + تنفيذ Argon2id بملح عشوائي 16 بايت وصيغة PHC (6 أجزاء)؛ لا تخزين صريح؛ الزمن المقيس 231–313ms (متوسط ≈272ms) ✅. T: 11 اختبارًا (تجزئة→تحقق، رفض كلمة خاطئة، فريادة الملح، ثبات الصيغة، رفض القيم التالفة، صلاحية تجزئة بمعاملات أقدم) + قياس زمني ✅. I: بلا تغيير مخطط (يعتمد على `P0-13`) ✅. |
+| [x] | P1-04 | `sessionProvider` (المستخدم، الدور، الصلاحيات، الوردية) | P1-01, P1-02 | A: `lock()` يسحب كل الصلاحيات ويُبطل الجلسة مع إبقاء الحساب للتبديل السريع ✅. T: 9 اختبارات مزوّد (دخول/خروج/قفل/تبديل مستخدم/وردية/دور غير مدمج/حساب معطّل/مصفوفة حيّة) ✅. I: برميل `lib/features/auth/auth.dart` يُتيح الاستهلاك من كل ميزة دون خرق الحدود ✅. |
 | [ ] | P1-05 | شاشة الدخول (كلمة مرور / PIN) | P1-03, P1-04, P0-10 | A: FR-AUTH-002. T: تجربة يدوية للدخول. I: يعتمد على `KeyManager` لفتح القاعدة. |
 | [ ] | P1-06 | سياسة القفل التدريجي بعد المحاولات الفاشلة + تسجيلها في التدقيق | P1-05 | A: 30ث/2د/15د/ساعة. T: 5 محاولات خاطئة. I: سجل تدقيق. |
 | [ ] | P1-07 | القفل التلقائي + التبديل السريع بين المستخدمين مع حفظ السلة | P1-05 | A: FR-AUTH-003, FR-AUTH-006. T: قفل/فتح بدون فقدان سلة. I: السلة مرتبطة بالمستخدم. |
@@ -394,6 +445,20 @@ dart run drift_dev schema dump ... && flutter test test/migrations
 | 2026-10-13 00:54 | Copilot SDK | `P0-01` | إنشاء مشروع Flutter وهيكل المجلدات والنكهات + اختبار دخان | `4452c32` |
 | 2026-10-13 | Big Pickle | `P0-02`…`P0-08` | **اليوم الثاني:** تحليل صارم + `tool/check_boundaries.dart` + CI + `AGENTS.md` + `core/money` (Money/Rate/Quantity/Tax/Formatter) + `core/utils` (Clock/UUIDv7/ربط الساعة بالمسجّل)؛ نقل رموز التصميم إلى `lib/shared/design` لاحترام الحدود؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 115/115 اختبارًا) | _(لم يُلتزم بعد)_ |
 | 2026-10-13 | Big Pickle | `P0-09`…`P0-10` | التوطين الكامل (ARB ar/en، RTL، مبدّل اللغة، مفاتيح رسائل الأخطاء) + التوجيه `go_router` مع قالب متكيّف (شريط سفلي للهاتف / جانبي للتابلت وسطح المكتب) + شاشة `/dev` لملعب Money/Tax؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 122/122 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | بحث المنتجات (تكملة `P0-10`) | ربط خانة البحث بفلترة حيّة لقائمة منتجات تجريبية داخل الواجهة (`lib/app/shell/demo_product.dart` + بحث بالاسم/الباركود في `_DesignSystemDemo`) + مفاتيح ARB (`searchResultsCount`/`searchNoResults`/`demoProduct*`)؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 127/127 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P0-11` | استكشاف SQLite/SQLCipher/FTS5: `SQLITE_VERSION=3.53.4`، `cipher_version` فارغ على المضيف، FTS5 مدعوم؛ القرار: FTS5 للبحث + اتصال قاعدة بيانات قابل للحقن (SQLCipher في بناء التطبيق فقط)؛ التوثيق في `docs/P0-11_sqlite_spike.md` | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P0-12` | قاعدة البيانات المحلية: `AppDatabase` (Drift) + `DatabaseConnector` (اتصال قابل للحقن) + PRAGMA (WAL/foreign_keys/secure_delete) + جدول `app_settings` + مغلّف SQLCipher للإنتاج؛ التحقق على المضيف بـ SQLite عادي ونقل شروط التشفير إلى تشغيل الجهاز؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 129/129 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P0-13` | أساس الأمان: `KeyManager` (Argon2id → KEK + DEK عشوائي 32 بايت + تغليف AES-GCM) + `SecureStore` قابل للحقن (ذاكرة للاختبار، `flutter_secure_storage` للتطبيق)؛ رفض كلمة المرور الخاطئة، تغيير كلمة المرور يعيد تغليف نفس DEK فقط؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 135/135 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P0-14` | وحدة العمل: `UnitOfWork` + `DriftUnitOfWork` (معاملة Drift واحدة تغلّف المستودعات)؛ اختبار تثبيت الكتابة عند النجاح وتراجع كامل عند الاستثناء؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 137/137 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P0-15` | سجل التدقيق: جدول `audit_log` (v2) + Triggerان يمنعان UPDATE/DELETE (append-only) + `AuditService.append` بسلسلة تجزئة SHA-256 داخل `UnitOfWork`؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 142/142 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P0-16` | فحص سلامة سجل التدقيق: `verifyChain()` يكشف أول حلقة مكسورة + `checkpoint()` ونقاط التحقق (`audit_checkpoints`، v3) + Triggers تمنع تعديلها؛ اختبارات عبث بخمس حالات؛ بوابة G0 مكتملة؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 146/146 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `DAY-3` | **ربط واجهات المستخدم بقاعدة البيانات (حفظ وتحديث حي):** ميزة الإعدادات على جدول `app_settings` (ملف النشاط + العملة + المظهر + اللغة) عبر حالات استخدام + `UnitOfWork` + تدقيق؛ استعادة المظهر واللغة قبل أول إطار في `bootstrap`؛ تحويل مسار `settings` إلى شاشة حقيقية؛ ملفات جديدة تحت `lib/features/settings/**` و`lib/core/database/database_providers.dart`؛ 19 اختبارًا جديدًا؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 180/180 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P0-15`/`P0-16` (إصلاح تكامل) | **إصلاح كامن في سلسلة التدقيق:** تطبيع الطابع الزمني إلى ثوانٍ صحيحة داخل `AuditService` قبل التجزئة والتخزين (`_toWholeSeconds`) لأن Drift يخزّن `DateTime` كثوانٍ صحيحة؛ كان `verifyChain` يُبلّغ عن عبث وهمي مع أي ساعة نظام حقيقية؛ أُضيف اختبار انحدار؛ كل الفحوص خضراء (180/180) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `EXTRA-HWID` | وحدة الترخيص المحلي: بصمة الجهاز HWID + مفاتيح ترخيص موقّعة Ed25519 تُتحقق محليًا (بدون شبكة) + تخزين آمن للمفتاح؛ واستخراج `encodeCanonicalJson` كأداة مشتركة بين سلسلة التدقيق والتوقيع | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P1-01` | **الصلاحيات ومصفوفة الأدوار:** تعداد `Permission` مغلق (31 صلاحية بأكواد ثابتة) + `UserRole` الأربعة + واجهة `RoleMatrix` والتنفيذ الافتراضي `DefaultRoleMatrix` (تعبير `switch` شامل)؛ **اختبار لكل خلية** (124 خلية) + حرّاس؛ المصفوفة مشتقّة من المجالات الوظيفية لأن PRD غير موجود في المستودع (مؤقتة بانتظار المصادقة، موثّقة في `docs/P1-01_permissions.md`)؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 318/318 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P1-02` | **جداول المستخدمين والأدوار والترحيل الأول:** مخطط Drift v3 → v4 (`roles` و`users` بتعطيل منطقي بلا حذف نهائي) + استحداث آلية لقطات المخطط (`drift_schemas/`) واختبار ترحيل حقيقي؛ مستودعان (`DriftRoleRepository`, `DriftUserRepository`) وست حالات استخدام بقراءة/إنشاء/تعطيل فقط، وكل كتابة داخل `UnitOfWork` مع سطر تدقيق في نفس المعاملة؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 358/358 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-14 | Big Pickle | `P1-03` | **خدمة تجزئة كلمة المرور وPIN (Argon2id):** واجهة نقية `PasswordHasher` في `domain` + تنفيذ `Argon2PasswordHasher` في `data` بصيغة PHC: `$argon2id$v=19$m=16384,t=2,p=1$<salt>$<digest>` (ملح عشوائي 16 بايت، مقارنة بزمن ثابت، رفض السر الفارغ، وفصل «كلمة خاطئة» عن «قيمة تالفة»)؛ عايرة الزمن على 16 MiB/جولتين = 231–313ms عبر مسبار مؤقّت حُذف بعد القياس؛ مزوّد `passwordHasher`؛ 11 اختبارًا جديدًا؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 369/369 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-14 | Big Pickle | `P1-04` | **جلسة المستخدم (`sessionProvider`):** `SessionState` نقي في `domain` (المستخدم/الدور/الوردية/القفل) + مزوّد `Session` بعمليات صريحة (دخول/خروج/قفل/وردية) يستبدل الحالة كاملة ويرفض الحساب المعطّل؛ `sessionPermissions` مشتقّة **حيًّا** من `RoleMatrix` فلا صلاحية قديمة؛ القفل يُبطل الجلسة مع إبقاء الحساب لتبديل سريع (`P1-07`)؛ **أول برميل للميزة** `lib/features/auth/auth.dart`؛ 9 اختبارات جديدة؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 378/378 اختبارًا) | _(لم يُلتزم بعد)_ |
 | _(—)_ | _(—)_ | _(—)_ | إنشاء الملف | _(—)_ |
 
 ## 7. سجل مشاكل التكامل (Integration Issues Log)
@@ -405,6 +470,8 @@ dart run drift_dev schema dump ... && flutter test test/migrations
 | 2026-10-13 | `DAY-1` | تغيّر واجهة `FlowApp` (أصبحت `ConsumerWidget` بلا معامل `flavor`) كسر `test/smoke_test.dart` و`test/widget_test.dart` اللذين كانا يستخدمان `FlowApp(flavor: ...)` | الانتقال من StatelessWidget إلى إدارة حالة Riverpod يتطلب قراءة النكهة من المزوّد لا تمريرها كمعامل | أُعيدت كتابة `test/smoke_test.dart` ليغلّف `ProviderScope`، وحُوِّل `test/widget_test.dart` لاختبار مزوّد الوضع الليلي | `test/smoke_test.dart` (تشغيل التطبيق) + `test/widget_test.dart` (ThemeMode) — كلها خضراء |
 | 2026-10-13 | `DAY-1` | في اختبار `CustomTextField` ظهر `helperText` غير مرسوم عند وجود `errorText` | سلوك Material 3: يشارك المساعد والخطأ نفس الخانة فيُستبدل المساعد بالخطأ | فُصل الاختباران: اختبار للمساعد وآخر للخطأ | `test/shared/widgets/custom_text_field_test.dart` |
 | 2026-10-13 | `DAY-1` | فشل تحليل: `Theme.maybeOf` غير موجود، و`FlutterErrorDetails.fatal` غير موجود، و`RangeError` حالة `switch` غير قابلة للوصول | اختلافات إصدار Flutter/Riverpod الحديث (Riverpod 3، Flutter 3.47) | استُبناء ألوان `AppErrorWidget` من `AppColors.light` مباشرةً دون الاعتماد على وراثة الثيم؛ إزالة `fatal` واستخدام `fatal: false` لأخطاء الإطار؛ حذف حالة `RangeError` لأنها فرع من `ArgumentError` | `flutter analyze` = No issues found |
+| 2026-10-13 | `P0-15`/`P0-16` | سلسلة التدقيق كانت تُخزّن `occurred_at` بلا أجزاء ثانوية (Drift يخزّن `DateTime` كثوانٍ صحيحة) بينما يدخل التجزئة بطابع زمني كامل الدقة، فيُعيد `verifyChain` تجزئة مختلفة ويُبلّغ عن عبث وهمي مع أي ساعة نظام حقيقية | `hashEntry` استخدم `occurredAt.toUtc().toIso8601String()` بدقة كاملة، بينما Drift's default `DateTime` mapping يقتطع إلى ثوانٍ صحيحة (Unix timestamp بالأثواني) — لذلك لا يمكن للقيمة أن تعود ذهابًا وإيابًا | `AuditService._toWholeSeconds()` يطبّع الطابع الزمني في `append` **و** في `hashEntry` قبل التجزئة والتخزين، فلا يمكن لقيمة لا تعود من القاعدة أن تُنتج عبثًا وهميًا | `test/core/database/audit_chain_test.dart` → «sub-second timestamps still verify after a database round-trip» + `test/features/settings/settings_screen_test.dart` (فحص `verifyChain` بعد حفظ حقيقي عبر مزوّدات التطبيق) |
+| 2026-10-13 | `P1-01` | معيار القبول «تطابق مصفوفة PRD (القسم 2) خلية بخلية» غير قابل للتحقق داخل المستودع | وثيقة PRD (والمواصفات التقنية) **مرجع خارجي** يذكره `EXECUTION_STATE.md` ولا يوجد ملف لها في المستودع؛ وقاعدة القسم 2/`AGENTS.md` تمنع التخمين عند التعارض بين الملف والواقع | أُوقفت الخطوة وأُبلغ المستخدم؛ ثم بموافقته اشتُقّت المصفوفة من المجالات الوظيفية ووُثّقت في `docs/P1-01_permissions.md` وسُجّلت صراحةً كـ«مؤقتة بانتظار مصادقة PRD» في `[DONE]` وفي القسم 5 | لا اختبار انحدار (ليست عيب كود): الحماية هي اختبارات المصفوفة (124 خلية) التي تُحدَّث عمدًا عند ربط PRD |
 
 ## 8. بروتوكول بدء الجلسة (Session Start Protocol)
 

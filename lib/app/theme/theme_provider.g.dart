@@ -10,22 +10,25 @@ part of 'theme_provider.dart';
 // ignore_for_file: type=lint, type=warning
 /// Holds the user-selected [ThemeMode] for the whole app.
 ///
-/// Kept alive for the whole session; later steps will persist the choice in
-/// the `settings` table (P0-10 / P1-12).
+/// The choice is written to the settings table (one audited row plus one audit
+/// entry) so it survives closing the app; [restore] is used by `bootstrap` to
+/// apply the stored value before the first frame without writing it back.
 
 @ProviderFor(ThemeModeController)
 final themeModeControllerProvider = ThemeModeControllerProvider._();
 
 /// Holds the user-selected [ThemeMode] for the whole app.
 ///
-/// Kept alive for the whole session; later steps will persist the choice in
-/// the `settings` table (P0-10 / P1-12).
+/// The choice is written to the settings table (one audited row plus one audit
+/// entry) so it survives closing the app; [restore] is used by `bootstrap` to
+/// apply the stored value before the first frame without writing it back.
 final class ThemeModeControllerProvider
     extends $NotifierProvider<ThemeModeController, ThemeMode> {
   /// Holds the user-selected [ThemeMode] for the whole app.
   ///
-  /// Kept alive for the whole session; later steps will persist the choice in
-  /// the `settings` table (P0-10 / P1-12).
+  /// The choice is written to the settings table (one audited row plus one audit
+  /// entry) so it survives closing the app; [restore] is used by `bootstrap` to
+  /// apply the stored value before the first frame without writing it back.
   ThemeModeControllerProvider._()
     : super(
         from: null,
@@ -54,12 +57,13 @@ final class ThemeModeControllerProvider
 }
 
 String _$themeModeControllerHash() =>
-    r'be4b544fc60afe4624b3508bd61d570f1689bfff';
+    r'2aa23782f2082f828eec59257f1205a6b345229a';
 
 /// Holds the user-selected [ThemeMode] for the whole app.
 ///
-/// Kept alive for the whole session; later steps will persist the choice in
-/// the `settings` table (P0-10 / P1-12).
+/// The choice is written to the settings table (one audited row plus one audit
+/// entry) so it survives closing the app; [restore] is used by `bootstrap` to
+/// apply the stored value before the first frame without writing it back.
 
 abstract class _$ThemeModeController extends $Notifier<ThemeMode> {
   ThemeMode build();

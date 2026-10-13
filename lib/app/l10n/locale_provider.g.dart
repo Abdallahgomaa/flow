@@ -11,11 +11,9 @@ part of 'locale_provider.dart';
 /// Controls the application language.
 ///
 /// A state of `null` means "follow the device locale"; Flutter resolves it
-/// against `kSupportedLocales`. Use [setLocale] to pin a language, or [toggle]
-/// to flip between the two bundled ones (Arabic ↔ English).
-///
-/// Kept alive for the whole session because the selected language must survive
-/// navigation and rebuilds.
+/// against `kSupportedLocales`. The choice is persisted so it survives closing
+/// the app; [restore] is used by `bootstrap` to apply the stored value before
+/// the first frame without writing it back.
 
 @ProviderFor(LocaleController)
 final localeControllerProvider = LocaleControllerProvider._();
@@ -23,21 +21,17 @@ final localeControllerProvider = LocaleControllerProvider._();
 /// Controls the application language.
 ///
 /// A state of `null` means "follow the device locale"; Flutter resolves it
-/// against `kSupportedLocales`. Use [setLocale] to pin a language, or [toggle]
-/// to flip between the two bundled ones (Arabic ↔ English).
-///
-/// Kept alive for the whole session because the selected language must survive
-/// navigation and rebuilds.
+/// against `kSupportedLocales`. The choice is persisted so it survives closing
+/// the app; [restore] is used by `bootstrap` to apply the stored value before
+/// the first frame without writing it back.
 final class LocaleControllerProvider
     extends $NotifierProvider<LocaleController, Locale?> {
   /// Controls the application language.
   ///
   /// A state of `null` means "follow the device locale"; Flutter resolves it
-  /// against `kSupportedLocales`. Use [setLocale] to pin a language, or [toggle]
-  /// to flip between the two bundled ones (Arabic ↔ English).
-  ///
-  /// Kept alive for the whole session because the selected language must survive
-  /// navigation and rebuilds.
+  /// against `kSupportedLocales`. The choice is persisted so it survives closing
+  /// the app; [restore] is used by `bootstrap` to apply the stored value before
+  /// the first frame without writing it back.
   LocaleControllerProvider._()
     : super(
         from: null,
@@ -65,16 +59,14 @@ final class LocaleControllerProvider
   }
 }
 
-String _$localeControllerHash() => r'7d6157a5ba208a1fcae1b5e1eb50770b8cceb982';
+String _$localeControllerHash() => r'0c968ff9091dbf28ba90f98482b946829a9e795d';
 
 /// Controls the application language.
 ///
 /// A state of `null` means "follow the device locale"; Flutter resolves it
-/// against `kSupportedLocales`. Use [setLocale] to pin a language, or [toggle]
-/// to flip between the two bundled ones (Arabic ↔ English).
-///
-/// Kept alive for the whole session because the selected language must survive
-/// navigation and rebuilds.
+/// against `kSupportedLocales`. The choice is persisted so it survives closing
+/// the app; [restore] is used by `bootstrap` to apply the stored value before
+/// the first frame without writing it back.
 
 abstract class _$LocaleController extends $Notifier<Locale?> {
   Locale? build();

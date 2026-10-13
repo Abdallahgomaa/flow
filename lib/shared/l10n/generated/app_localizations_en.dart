@@ -91,6 +91,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get productSearchHint => 'Name or barcode';
 
   @override
+  String searchResultsCount(int count) {
+    return 'Matches: $count';
+  }
+
+  @override
+  String get searchNoResults => 'No products found';
+
+  @override
+  String get demoProductMilk => 'Fresh milk 1L';
+
+  @override
+  String get demoProductBread => 'Baladi bread';
+
+  @override
+  String get demoProductRice => 'Egyptian rice 1kg';
+
+  @override
+  String get demoProductTea => 'Tea bags (100)';
+
+  @override
+  String get demoProductOil => 'Sunflower oil 1L';
+
+  @override
+  String get demoProductSugar => 'Sugar 1kg';
+
+  @override
+  String get demoProductWater => 'Mineral water 1.5L';
+
+  @override
+  String get demoProductSoap => 'Hand soap 500ml';
+
+  @override
   String get devScreenTitle => 'Developer tools';
 
   @override
@@ -165,4 +197,59 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorHardware => 'A required device feature is unavailable.';
+
+  @override
+  String get settingsBusinessSectionTitle => 'Business profile';
+
+  @override
+  String get settingsBusinessSectionSubtitle =>
+      'Printed on receipts and reports';
+
+  @override
+  String get settingsNameLabel => 'Business name';
+
+  @override
+  String get settingsPhoneLabel => 'Phone';
+
+  @override
+  String get settingsAddressLabel => 'Address';
+
+  @override
+  String get settingsTaxRateLabel => 'Tax rate';
+
+  @override
+  String get settingsCurrencyLabel => 'Currency';
+
+  @override
+  String get settingsReceiptFooterLabel => 'Receipt footer';
+
+  @override
+  String get settingsAppearanceSectionTitle => 'Appearance and language';
+
+  @override
+  String get settingsAppearanceSectionSubtitle => 'Saved on this device';
+
+  @override
+  String get settingsThemeLabel => 'Theme';
+
+  @override
+  String get settingsLanguageSystem => 'System default';
+
+  @override
+  String get settingsDiscard => 'Discard';
+
+  @override
+  String get settingsSaved => 'Saved';
+
+  @override
+  String get settingsSaveFailed => 'Could not save. Please try again.';
+
+  @override
+  String get settingsLoadFailed => 'Could not load the saved settings.';
+
+  @override
+  String get settingsNameRequired => 'Enter a business name.';
+
+  @override
+  String get settingsTaxRateInvalid => 'Enter a tax rate between 0 and 100.';
 }

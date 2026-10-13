@@ -33,6 +33,21 @@
   "outlinedCardSubtitle": "Good for grouped settings",
   "productSearchLabel": "Product search",
   "productSearchHint": "Name or barcode",
+  "searchResultsCount": "Matches: {count}",
+  "@searchResultsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "searchNoResults": "No products found",
+  "demoProductMilk": "Fresh milk 1L",
+  "demoProductBread": "Baladi bread",
+  "demoProductRice": "Egyptian rice 1kg",
+  "demoProductTea": "Tea bags (100)",
+  "demoProductOil": "Sunflower oil 1L",
+  "demoProductSugar": "Sugar 1kg",
+  "demoProductWater": "Mineral water 1.5L",
+  "demoProductSoap": "Hand soap 500ml",
 
   "devScreenTitle": "Developer tools",
   "devScreenSubtitle": "Money and tax playground",
@@ -59,5 +74,24 @@
   "errorStorage": "The local database could not be read or written.",
   "errorCrypto": "A secure operation failed.",
   "errorTimeout": "The operation took too long. Please try again.",
-  "errorHardware": "A required device feature is unavailable."
+  "errorHardware": "A required device feature is unavailable.",
+
+  "settingsBusinessSectionTitle": "Business profile",
+  "settingsBusinessSectionSubtitle": "Printed on receipts and reports",
+  "settingsNameLabel": "Business name",
+  "settingsPhoneLabel": "Phone",
+  "settingsAddressLabel": "Address",
+  "settingsTaxRateLabel": "Tax rate",
+  "settingsCurrencyLabel": "Currency",
+  "settingsReceiptFooterLabel": "Receipt footer",
+  "settingsAppearanceSectionTitle": "Appearance and language",
+  "settingsAppearanceSectionSubtitle": "Saved on this device",
+  "settingsThemeLabel": "Theme",
+  "settingsLanguageSystem": "System default",
+  "settingsDiscard": "Discard",
+  "settingsSaved": "Saved",
+  "settingsSaveFailed": "Could not save. Please try again.",
+  "settingsLoadFailed": "Could not load the saved settings.",
+  "settingsNameRequired": "Enter a business name.",
+  "settingsTaxRateInvalid": "Enter a tax rate between 0 and 100."
 }

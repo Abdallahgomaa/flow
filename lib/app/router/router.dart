@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../settings/settings_route.dart';
 import '../shell/adaptive_shell.dart';
 import '../shell/app_destination.dart';
 import '../shell/dev_screen.dart';
@@ -18,14 +19,14 @@ abstract final class AppRoutes {
 
 /// Builds the body for a top-level [AppDestination].
 ///
-/// Only the point-of-sale branch has a real page so far; the rest share the
+/// The point-of-sale and settings branches have real pages; the rest share the
 /// placeholder until their features land.
 Widget _pageFor(AppDestination destination) => switch (destination) {
   AppDestination.pointOfSale => const HomeScreen(),
+  AppDestination.settings => const SettingsRoute(),
   AppDestination.products ||
   AppDestination.inventory ||
-  AppDestination.reports ||
-  AppDestination.settings => PlaceholderPage(destination: destination),
+  AppDestination.reports => PlaceholderPage(destination: destination),
 };
 
 /// The application router.
