@@ -1,0 +1,13 @@
+# Localisation configuration for Flow (P0-09).
+#
+# `flutter gen-l10n` (run automatically by `flutter pub get`/build) reads the
+# ARB files here and writes a normal, reviewable Dart library into
+# `lib/shared/l10n/generated/`. That directory is excluded from analysis in
+# `analysis_options.yaml` because it is generated.
+arb-dir: lib/shared/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+output-dir: lib/shared/l10n/generated
+# `of(context)` returns a non-nullable AppLocalizations.
+nullable-getter: false

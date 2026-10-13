@@ -29,6 +29,10 @@ sealed class Failure {
 
   @override
   String toString() {
+    // `runtimeType` is used deliberately to keep debugging output readable.
+    // This file is pure Dart (no `foundation` import), so the analysis lint
+    // that guards `runtimeType.toString()` in production is suppressed here.
+    // ignore: no_runtimetype_tostring
     final buffer = StringBuffer('$runtimeType(');
     final List<String> parts = <String>[
       if (message != null) 'message: $message',

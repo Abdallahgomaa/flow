@@ -13,8 +13,8 @@ void main() {
     });
 
     test('err state', () {
-      final Failure failure = ValidationFailure(message: 'bad input');
-      final Result<int> result = Result.err(failure);
+      const Failure failure = ValidationFailure(message: 'bad input');
+      const Result<int> result = Result.err(failure);
       expect(result.isErr, isTrue);
       expect(result.isOk, isFalse);
       expect(result.valueOrNull, isNull);
@@ -23,7 +23,7 @@ void main() {
 
     test('fold picks the right branch', () {
       const Result<String> ok = Result.ok('value');
-      final Result<String> err = Result.err(UnknownFailure(message: 'boom'));
+      const Result<String> err = Result.err(UnknownFailure(message: 'boom'));
 
       expect(ok.fold(ok: (v) => 'ok:$v', err: (f) => 'err'), 'ok:value');
       expect(err.fold(ok: (v) => 'ok:$v', err: (f) => 'err'), 'err');
@@ -62,8 +62,8 @@ void main() {
       expect(const Result.ok(1), const Result.ok(1));
       expect(const Result.ok(1), isNot(const Result.ok(2)));
       expect(
-        const Result.err(NotFoundFailure()),
-        const Result.err(NotFoundFailure()),
+        const Result<int>.err(NotFoundFailure()),
+        const Result<int>.err(NotFoundFailure()),
       );
     });
   });
@@ -85,7 +85,8 @@ void main() {
     test('uses onError mapper when provided', () {
       final Result<int> result = Result.guard<int>(
         () => throw const FormatException('nope'),
-        onError: (error, stackTrace) => ValidationFailure(message: 'mapped'),
+        onError: (error, stackTrace) =>
+            const ValidationFailure(message: 'mapped'),
       );
       expect(result.failureOrNull, isA<ValidationFailure>());
     });

@@ -14,6 +14,9 @@ part of 'logger_provider.dart';
 /// ```dart
 /// ProviderScope(overrides: [appLoggerProvider.overrideWithValue(custom)])
 /// ```
+///
+/// The logger's timestamp source is the injected [clockProvider], so every
+/// record can be made deterministic in tests by overriding the clock.
 
 @ProviderFor(appLogger)
 final appLoggerProvider = AppLoggerProvider._();
@@ -24,6 +27,9 @@ final appLoggerProvider = AppLoggerProvider._();
 /// ```dart
 /// ProviderScope(overrides: [appLoggerProvider.overrideWithValue(custom)])
 /// ```
+///
+/// The logger's timestamp source is the injected [clockProvider], so every
+/// record can be made deterministic in tests by overriding the clock.
 
 final class AppLoggerProvider
     extends $FunctionalProvider<AppLogger, AppLogger, AppLogger>
@@ -34,6 +40,9 @@ final class AppLoggerProvider
   /// ```dart
   /// ProviderScope(overrides: [appLoggerProvider.overrideWithValue(custom)])
   /// ```
+  ///
+  /// The logger's timestamp source is the injected [clockProvider], so every
+  /// record can be made deterministic in tests by overriding the clock.
   AppLoggerProvider._()
     : super(
         from: null,
@@ -67,4 +76,4 @@ final class AppLoggerProvider
   }
 }
 
-String _$appLoggerHash() => r'e32c6e2fe49ce970b09ffe3cfcae2c4163a0044e';
+String _$appLoggerHash() => r'13af97b1077ef5454907b80858315603ee9d8878';

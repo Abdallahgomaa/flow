@@ -34,18 +34,14 @@ void main() {
   });
 
   testWidgets('null onPressed renders a disabled button', (tester) async {
-    var tapped = 0;
-    await tester.pumpWidget(
-      _wrap(CustomButton(label: 'Save', onPressed: null)),
-    );
+    await tester.pumpWidget(_wrap(const CustomButton(label: 'Save')));
 
     await tester.tap(find.text('Save'), warnIfMissed: false);
-    expect(tapped, 0);
   });
 
   testWidgets('isExpanded stretches to the full width', (tester) async {
     await tester.pumpWidget(
-      _wrap(CustomButton(label: 'Save', isExpanded: true)),
+      _wrap(const CustomButton(label: 'Save', isExpanded: true)),
     );
 
     final double buttonWidth = tester.getSize(find.byType(CustomButton)).width;
@@ -56,7 +52,7 @@ void main() {
   testWidgets('renders leading and trailing icons', (tester) async {
     await tester.pumpWidget(
       _wrap(
-        CustomButton(
+        const CustomButton(
           label: 'Search',
           icon: Icons.search,
           trailingIcon: Icons.arrow_forward,

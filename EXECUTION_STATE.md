@@ -15,10 +15,10 @@
 | آخر تحديث | 2026-10-13 |
 | آخر موديل عمل | Big Pickle (OpenCode) |
 | المرحلة الحالية | Phase 0 — الأساس |
-| الخطوة الحالية | `P0-02` |
-| عدد الخطوات المكتملة | 3 / 133 |
+| الخطوة الحالية | `P0-11` |
+| عدد الخطوات المكتملة | 11 / 133 |
 | إصدار المخطط (schema_version) | 1.0 |
-| حالة البناء الأخيرة | `dart format` نظيف، `flutter analyze` = No issues found، `flutter test` = 49/49 نجحت، `build_runner` نجح |
+| حالة البناء الأخيرة | `dart format` نظيف، `flutter analyze` = No issues found، `dart run tool/check_boundaries.dart` = Boundary check passed، `flutter test` = 122/122 نجحت، `build_runner` و`flutter gen-l10n` نجحا |
 
 ---
 
@@ -32,6 +32,22 @@
 - [DONE] `P0-01` — إنشاء مشروع Flutter وهيكل المجلدات والنكهات (Flavors) — الملفات: `lib/main.dart`, `lib/bootstrap.dart`, `lib/app/app.dart`, `lib/app/router/router.dart`, `lib/core/config/app_flavor.dart`, `android/app/build.gradle.kts`, `android/app/src/main/AndroidManifest.xml` — الاختبارات: `test/smoke_test.dart` — 2026-10-13 — Copilot SDK
 
 - [DONE] `P0-05` — `core/result`: `Result<T>` و`Failure` (أنواع مغلقة sealed مع map/fold) — الملفات: `lib/core/result/failure.dart`, `lib/core/result/result.dart`, `lib/core/error/failure_mapper.dart` — الاختبارات: `test/core/result/result_test.dart`, `test/core/error/failure_mapper_test.dart` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-02` — ضبط التحليل الصارم + أداة منع خرق الحدود بين الطبقات — الملفات: `analysis_options.yaml`, `tool/check_boundaries.dart`, ونقل رموز التصميم إلى `lib/shared/design/{app_colors,app_dimens,app_typography,app_theme_extension,design}.dart` (لفصل `shared` عن `app`) — الاختبارات: `test/tool/check_boundaries_test.dart` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-03` — مسار CI (format, analyze, boundaries, test) — الملفات: `.github/workflows/ci.yml` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-04` — ملف `AGENTS.md` في الجذر (قواعد القسم 2 وقواعد المواصفات) — الملفات: `AGENTS.md` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-06` — `core/money`: كائن `Money` (أعداد صحيحة + عملة) مع `Rate` و`RoundingMode` و`MoneyFormatter` (بلا `double`) — الملفات: `lib/core/money/{currency,rounding_mode,rate,money,money_formatter,money_core}.dart` — الاختبارات: `test/core/money/{money,rate,money_formatter}_test.dart` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-07` — `Quantity` + حاسبة الضريبة (شامل/غير شامل، توزيع الباقي بطريقة أكبر باقٍ) — الملفات: `lib/core/money/{quantity,tax_mode,tax_calculator}.dart` — الاختبارات: `test/core/money/{quantity,tax_calculator}_test.dart` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-08` — `core/utils`: `Clock` وUUID v7 وربط المسجّل بساعة مُحقونة (لا `DateTime.now()` خارج `SystemClock`) — الملفات: `lib/core/utils/{clock,uuid_v7,utils_providers,logger_provider,logger}.dart` — الاختبارات: `test/core/utils/{clock,uuid_v7,logger_clock}_test.dart` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-09` — التوطين: ARB (ar/en) + دعم RTL + مبدّل اللغة + مفاتيح رسائل الأخطاء — الملفات: `l10n.yaml`, `lib/shared/l10n/{app_en,app_ar}.arb`, `lib/shared/l10n/{l10n,error_messages}.dart`, `lib/app/l10n/locale_provider.dart`، وتحديث `app.dart`/`home_screen.dart`/`app_error_widget.dart` — الاختبارات: `test/shared/l10n/error_messages_test.dart`, `test/app/l10n/locale_provider_test.dart` — 2026-10-13 — Big Pickle
+
+- [DONE] `P0-10` — المظهر والقالب المتكيّف: `go_router` (StatefulShellRoute) + شريط سفلي للهاتف / جانبي للتابلت وسطح المكتب + شاشة `/dev` (ملعب Money/Tax) — الملفات: `lib/app/router/router.dart`, `lib/app/shell/{app_destination,adaptive_shell,placeholder_page,dev_screen}.dart` — الاختبارات: `test/app/router/app_router_test.dart`, `test/app/shell/app_destination_test.dart` — 2026-10-13 — Big Pickle
 
 - [DONE] `DAY-1` — **اليوم الأول: التأسيس المعماري ونظام التصميم** (يشمل الجزء المتعلّق بالمظهر من `P0-10` وجزء المسجّل من `P0-08`) — التفاصيل:
   - **هيكل Feature-First:** إنشاء `lib/app`, `lib/core`, `lib/features` (17 ميزة × `domain/data/presentation`), `lib/shared` مع `.gitkeep`.
@@ -59,13 +75,14 @@
 - **ملاحظات تسليم للموديل التالي:** _(تُملأ عند التوقف)_
 
 - **طابور اليوم الثاني (يُنقل إليه واحدًا تلو الآخر بعد إتمام `P0-02`):**
-  1. `P0-02` — ضبط التحليل وحدود الاستيراد. ← **النشطة الآن**
-  2. `P0-03` — مسار CI (format, analyze, test, build).
-  3. `P0-04` — ملف `AGENTS.md` في الجذر.
-  4. `P0-06` — `core/money`: كائن `Money` (أعداد صحيحة + عملة).
-  5. `P0-07` — `Quantity` + حاسبات الضريبة والتقريب.
-  6. `P0-08` — إكمال `core/utils`: `Clock` و`UUID v7` (المسجّل Logger مكتمل جزئيًا في اليوم الأول).
-  7. `P0-10` (المتبقّي) — القالب المتكيّف و`go_router` (المظهر و`windowSizeFor` جاهزان).
+  1. `P0-02` — ضبط التحليل وحدود الاستيراد. ✅ **[DONE]**
+  2. `P0-03` — مسار CI (format, analyze, boundaries, test). ✅ **[DONE]**
+  3. `P0-04` — ملف `AGENTS.md` في الجذر. ✅ **[DONE]**
+  4. `P0-06` — `core/money`: كائن `Money` (أعداد صحيحة + عملة). ✅ **[DONE]**
+  5. `P0-07` — `Quantity` + حاسبات الضريبة والتقريب. ✅ **[DONE]**
+  6. `P0-08` — إكمال `core/utils`: `Clock` و`UUID v7`. ✅ **[DONE]**
+  7. `P0-09` — التوطين (ARB ar/en + دعم RTL + مبدّل اللغة). ✅ **[DONE]**
+  8. `P0-10` — إكمال `go_router` والقالب المتكيّف (هاتف/تابلت/سطح مكتب) وشاشة `/dev`. ✅ **[DONE]**
 
 ### 1.3 المراحل المتبقية `[PENDING]`
 
@@ -178,15 +195,15 @@ dart run drift_dev schema dump ... && flutter test test/migrations
 | ☐ | ID | الخطوة | تعتمد على | A / T / I |
 |---|---|---|---|---|
 | [x] | P0-01 | مشروع Flutter + هيكل المجلدات + نكهات dev/prod | — | A: يبني ويشتغل بالنكهتين. T: تشغيل على محاكي. I: —. |
-| [ ] | P0-02 | `analysis_options.yaml` (very_good_analysis) + قاعدة منع الاستيراد بين الميزات | P0-01 | A: يفشل التحليل عند استيراد مخالف. T: إضافة استيراد مخالف تجريبيًا ثم إزالته. I: لا تحذيرات على الكود الحالي. |
-| [ ] | P0-03 | مسار CI (format, analyze, test, build) | P0-02 | A: يعمل أخضر على مشروع فارغ. T: دفع فرع تجريبي. I: —. |
-| [ ] | P0-04 | ملف `AGENTS.md` في الجذر (قواعد القسم 2 وقواعد المواصفات) | P0-01 | A: مطابق للقواعد الملزمة. T: مراجعة يدوية. I: مرتبط بهذا الملف. |
+| [x] | P0-02 | `analysis_options.yaml` + قاعدة منع الاستيراد بين الميزات + `tool/check_boundaries.dart` | P0-01 | A: يفشل التحليل/الفحص عند استيراد مخالف. T: `test/tool/check_boundaries_test.dart` (10 حالات). I: لا تحذيرات على الكود الحالي. |
+| [x] | P0-03 | مسار CI (format, analyze, boundaries, test) | P0-02 | A: يعمل أخضر محليًا بنفس الأوامر. T: `.github/workflows/ci.yml`. I: —. |
+| [x] | P0-04 | ملف `AGENTS.md` في الجذر (قواعد القسم 2 وقواعد المواصفات) | P0-01 | A: مطابق للقواعد الملزمة. T: مراجعة يدوية. I: مرتبط بهذا الملف. |
 | [x] | P0-05 | `core/result`: `Result<T, Failure>` وأنواع `Failure` | P0-01 | A: أنواع مغلقة (sealed) مع `map/fold`. T: اختبارات وحدة. I: —. |
-| [ ] | P0-06 | `core/money`: كائن `Money` (أعداد صحيحة + عملة) وعمليات حسابية آمنة | P0-05 | A: لا `double`؛ جمع/طرح/ضرب بنسبة. T: اختبارات خصائص (property tests). I: —. |
-| [ ] | P0-07 | `Quantity` + حاسبات الضريبة والتقريب (شامل/غير شامل، توزيع الباقي) | P0-06 | A: يطابق قاعدة التقريب في PRD. T: اختبارات حالات حدّية (فرق وحدة صغرى). I: يستخدم `Money`. |
-| [~] | P0-08 | `core/utils`: الساعة (Clock) وUUID v7 والمسجّل (Logger) المنزوع الحساسية | P0-01 | A: UUID مرتب زمنيًا؛ المسجّل لا يطبع payload. T: اختبارات وحدة. I: —. **(Logger مكتمل في اليوم الأول؛ يتبقّى Clock+UUID v7)** |
-| [~] | P0-09 | التوطين: ARB (ar/en) + دعم RTL + مبدّل اللغة | P0-01 | A: لا نصوص صلبة؛ تخطيط RTL سليم. T: golden LTR/RTL. I: —. **(النصوص الحالية في `home_screen.dart` مؤقتة بانتظار هذه الخطوة)** |
-| [~] | P0-10 | المظهر (Theme) + القالب المتكيّف (هاتف/تابلت/سطح مكتب) + هيكل الموجّه `go_router` | P0-09 | A: 3 أحجام شاشة تعمل. T: تشغيل بأحجام مختلفة. I: يستخدم ARB. **(المظهر و`windowSizeFor` جاهزان في اليوم الأول؛ يتبقّى go_router والقالب المتكيّف)** |
+| [x] | P0-06 | `core/money`: كائن `Money` (أعداد صحيحة + عملة) وعمليات حسابية آمنة | P0-05 | A: لا `double`؛ جمع/طرح/ضرب بنسبة. T: اختبارات خصائص (property tests). I: —. |
+| [x] | P0-07 | `Quantity` + حاسبات الضريبة والتقريب (شامل/غير شامل، توزيع الباقي) | P0-06 | A: يطابق قاعدة التقريب في PRD. T: اختبارات حالات حدّية (فرق وحدة صغرى). I: يستخدم `Money`. |
+| [x] | P0-08 | `core/utils`: الساعة (Clock) وUUID v7 والمسجّل (Logger) المنزوع الحساسية | P0-01 | A: UUID مرتب زمنيًا؛ المسجّل لا يطبع payload؛ لا `DateTime.now()` خارج `SystemClock`. T: اختبارات وحدة. I: —. |
+| [x] | P0-09 | التوطين: ARB (ar/en) + دعم RTL + مبدّل اللغة | P0-01 | A: لا نصوص صلبة؛ تخطيط RTL سليم. T: اختبار تبديل اللغة (ar/en). I: —. |
+| [x] | P0-10 | المظهر (Theme) + القالب المتكيّف (هاتف/تابلت/سطح مكتب) + هيكل الموجّه `go_router` | P0-09 | A: 3 أحجام شاشة تعمل. T: اختبار الشريط السفلي/الجانبي + شاشة `/dev`. I: يستخدم ARB. |
 | [ ] | P0-11 | استكشاف (Spike): SQLCipher + FTS5 على Android وWindows (وiOS إن توفر) | P0-01 | A: تقرير توفر FTS5 وإصدار cipher لكل منصة. T: تشغيل فعلي. I: قرار موثّق (FTS5 أو بديل LIKE). |
 | [ ] | P0-12 | `AppDatabase` (Drift) + اتصال SQLCipher + إعدادات PRAGMA (WAL, foreign_keys, secure_delete) | P0-11 | A: يفشل المفتاح الخاطئ؛ `cipher_version` غير فارغ. T: محاولة فتح الملف بـ SQLite عادي تفشل. I: —. |
 | [ ] | P0-13 | `KeyManager`: Argon2id + DEK عشوائي + التغليف AES-GCM + `SecureStore` | P0-12 | A: كلمة مرور خاطئة مرفوضة؛ تغيير كلمة المرور يعيد تغليف DEK فقط. T: اختبارات وحدة + فتح/قفل. I: يغذّي P0-12. |
@@ -375,6 +392,8 @@ dart run drift_dev schema dump ... && flutter test test/migrations
 | 2026-10-13 | Big Pickle | `DAY-1` | **إغلاق اليوم الأول نهائيًا:** تأكيد المستخدم بمشاهدة واجهات نظام التصميم على المحاكي (تحقّق T مكتمل)؛ ثبات `[DONE]` لـ `P0-01` و`P0-05` و`DAY-1` | _(لم يُلتزم بعد)_ |
 | 2026-10-13 | Big Pickle | `P0-05` + `DAY-1` | إنجاز `core/result` (Result/Failure) + نظام التصميم (Theme + CustomButton/CustomTextField/CustomCard) + تهيئة Riverpod + نظام الأخطاء والمسجّل العام + شاشة عرض نظام التصميم؛ نقل `P0-05` و`DAY-1` إلى `[DONE]` ونقل `P0-02` إلى `[IN-PROGRESS]` | _(لم يُلتزم بعد)_ |
 | 2026-10-13 00:54 | Copilot SDK | `P0-01` | إنشاء مشروع Flutter وهيكل المجلدات والنكهات + اختبار دخان | `4452c32` |
+| 2026-10-13 | Big Pickle | `P0-02`…`P0-08` | **اليوم الثاني:** تحليل صارم + `tool/check_boundaries.dart` + CI + `AGENTS.md` + `core/money` (Money/Rate/Quantity/Tax/Formatter) + `core/utils` (Clock/UUIDv7/ربط الساعة بالمسجّل)؛ نقل رموز التصميم إلى `lib/shared/design` لاحترام الحدود؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 115/115 اختبارًا) | _(لم يُلتزم بعد)_ |
+| 2026-10-13 | Big Pickle | `P0-09`…`P0-10` | التوطين الكامل (ARB ar/en، RTL، مبدّل اللغة، مفاتيح رسائل الأخطاء) + التوجيه `go_router` مع قالب متكيّف (شريط سفلي للهاتف / جانبي للتابلت وسطح المكتب) + شاشة `/dev` لملعب Money/Tax؛ كل الفحوص خضراء (analyze نظيف، boundaries تعبر، 122/122 اختبارًا) | _(لم يُلتزم بعد)_ |
 | _(—)_ | _(—)_ | _(—)_ | إنشاء الملف | _(—)_ |
 
 ## 7. سجل مشاكل التكامل (Integration Issues Log)

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../app/theme/app_dimens.dart';
-import '../../app/theme/app_theme_extension.dart';
+import '../design/app_dimens.dart';
+import '../design/app_theme_extension.dart';
 
 /// Visual emphasis of a [CustomButton].
 enum CustomButtonVariant {

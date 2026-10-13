@@ -1,5 +1,63 @@
-class AppRouter {
-  const AppRouter();
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-  static const String home = '/';
+import '../shell/adaptive_shell.dart';
+import '../shell/app_destination.dart';
+import '../shell/dev_screen.dart';
+import '../shell/home_screen.dart';
+import '../shell/placeholder_page.dart';
+
+part 'router.g.dart';
+
+/// Routes that live outside the adaptive shell.
+abstract final class AppRoutes {
+  /// Developer tools (Money/Tax playground).
+  static const String dev = '/dev';
 }
+
+/// Builds the body for a top-level [AppDestination].
+///
+/// Only the point-of-sale branch has a real page so far; the rest share the
+/// placeholder until their features land.
+Widget _pageFor(AppDestination destination) => switch (destination) {
+  AppDestination.pointOfSale => const HomeScreen(),
+  AppDestination.products ||
+  AppDestination.inventory ||
+  AppDestination.reports ||
+  AppDestination.settings => PlaceholderPage(destination: destination),
+};
+
+/// The application router.
+///
+/// Exposed through Riverpod so it is created once, overridable in tests, and
+/// disposed with its scope.
+@Riverpod(keepAlive: true)
+GoRouter appRouter(Ref ref) => GoRouter(
+  initialLocation: AppDestination.pointOfSale.path,
+  routes: <RouteBase>[
+    StatefulShellRoute.indexedStack(
+      builder: (
+        BuildContext context,
+        GoRouterState state,
+        StatefulNavigationShell navigationShell,
+      ) => AdaptiveShell(navigationShell: navigationShell),
+      branches: <StatefulShellBranch>[
+        for (final AppDestination destination in AppDestination.values)
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: destination.path,
+                builder: (BuildContext context, GoRouterState state) =>
+                    _pageFor(destination),
+              ),
+            ],
+          ),
+      ],
+    ),
+    GoRoute(
+      path: AppRoutes.dev,
+      builder: (BuildContext context, GoRouterState state) => const DevScreen(),
+    ),
+  ],
+);

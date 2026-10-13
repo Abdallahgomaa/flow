@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../app/theme/app_colors.dart';
-import '../../app/theme/app_dimens.dart';
+import '../design/app_colors.dart';
+import '../design/app_dimens.dart';
 
 /// Friendly fallback widget used by `ErrorWidget.builder` when a widget fails
 /// to build, preventing the infamous "red screen" from leaking to users.
@@ -10,7 +10,13 @@ import '../../app/theme/app_dimens.dart';
 /// It is intentionally self-contained (no inherited theme assumptions) so it
 /// can render even when the surrounding widget tree is broken.
 class AppErrorWidget extends StatelessWidget {
-  const AppErrorWidget({super.key, this.title, this.message, this.onRetry});
+  const AppErrorWidget({
+    super.key,
+    this.title,
+    this.message,
+    this.onRetry,
+    this.retryLabel,
+  });
 
   /// Already-localised headline.
   final String? title;
@@ -20,6 +26,13 @@ class AppErrorWidget extends StatelessWidget {
 
   /// Optional retry callback (used by error views that can recover).
   final VoidCallback? onRetry;
+
+  /// Already-localised retry button label.
+  ///
+  /// Falls back to the English word when the widget is rendered outside a
+  /// localised tree — notably by the global `ErrorWidget.builder`, which runs
+  /// before any `BuildContext` (and therefore any `AppLocalizations`) exists.
+  final String? retryLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +78,7 @@ class AppErrorWidget extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg),
                   OutlinedButton(
                     onPressed: onRetry,
-                    child: const Text('Retry'),
+                    child: Text(retryLabel ?? 'Retry'),
                   ),
                 ],
               ],

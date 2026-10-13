@@ -1,0 +1,63 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Flow",
+
+  "actionSearch": "Search",
+  "actionRetry": "Retry",
+  "actionSave": "Save",
+  "actionCancel": "Cancel",
+  "buttonSecondary": "Secondary",
+  "buttonOutline": "Outline",
+  "buttonGhost": "Ghost",
+
+  "themeModeSystem": "System",
+  "themeModeLight": "Light",
+  "themeModeDark": "Dark",
+  "themeToggleTooltip": "Switch theme",
+
+  "languageLabel": "Language",
+  "languageArabic": "العربية",
+  "languageEnglish": "English",
+
+  "navigationPos": "Point of Sale",
+  "navigationProducts": "Products",
+  "navigationInventory": "Inventory",
+  "navigationReports": "Reports",
+  "navigationSettings": "Settings",
+
+  "designSystemTitle": "Design System",
+  "customCardTitle": "CustomCard",
+  "customCardSubtitle": "Elevated variant with header and content",
+  "outlinedCardTitle": "Outlined card",
+  "outlinedCardSubtitle": "Good for grouped settings",
+  "productSearchLabel": "Product search",
+  "productSearchHint": "Name or barcode",
+
+  "devScreenTitle": "Developer tools",
+  "devScreenSubtitle": "Money and tax playground",
+  "devAmountLabel": "Amount",
+  "devTaxRateLabel": "Tax rate (%)",
+  "devQuantityLabel": "Quantity",
+  "devNetLabel": "Net",
+  "devTaxLabel": "Tax",
+  "devGrossLabel": "Gross",
+  "devInvalidAmount": "Enter a valid amount",
+  "devCurrencyLabel": "Currency",
+  "devTaxModeLabel": "Tax mode",
+  "devTaxExclusive": "Exclusive",
+  "devTaxInclusive": "Inclusive",
+  "devLineTotalLabel": "Line total",
+  "placeholderComingSoon": "Coming soon",
+
+  "errorTitle": "Something went wrong",
+  "errorUnexpected": "An unexpected error occurred. Please try again.",
+  "errorValidation": "Please check the values you entered.",
+  "errorNotFound": "The requested item was not found.",
+  "errorConflict": "This action conflicts with existing data.",
+  "errorPermission": "You do not have permission to do this.",
+  "errorStorage": "The local database could not be read or written.",
+  "errorCrypto": "A secure operation failed.",
+  "errorTimeout": "The operation took too long. Please try again.",
+  "errorHardware": "A required device feature is unavailable."
+}

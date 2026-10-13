@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('passes Failure instances through untouched', () {
-    final Failure failure = NotFoundFailure(message: 'nope');
+    const Failure failure = NotFoundFailure(message: 'nope');
     expect(FailureMapper.fromError(failure), same(failure));
   });
 

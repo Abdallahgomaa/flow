@@ -23,7 +23,7 @@ void main() {
 
   testWidgets('renders the label and helper text', (tester) async {
     await tester.pumpWidget(
-      _wrap(CustomTextField(label: 'Name', helperText: 'shown as hint')),
+      _wrap(const CustomTextField(label: 'Name', helperText: 'shown as hint')),
     );
 
     expect(find.text('Name'), findsOneWidget);
@@ -32,7 +32,7 @@ void main() {
 
   testWidgets('renders the error text', (tester) async {
     await tester.pumpWidget(
-      _wrap(CustomTextField(label: 'Name', errorText: 'invalid value')),
+      _wrap(const CustomTextField(label: 'Name', errorText: 'invalid value')),
     );
 
     expect(find.text('Name'), findsOneWidget);
@@ -40,7 +40,7 @@ void main() {
   });
 
   testWidgets('obscure toggle reveals and masks input', (tester) async {
-    await tester.pumpWidget(_wrap(CustomTextField(obscureText: true)));
+    await tester.pumpWidget(_wrap(const CustomTextField(obscureText: true)));
 
     expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
     await tester.tap(find.byIcon(Icons.visibility_outlined));

@@ -1,0 +1,63 @@
+{
+  "@@locale": "ar",
+
+  "appTitle": "فلو",
+
+  "actionSearch": "بحث",
+  "actionRetry": "إعادة المحاولة",
+  "actionSave": "حفظ",
+  "actionCancel": "إلغاء",
+  "buttonSecondary": "ثانوي",
+  "buttonOutline": "مُحدَّد",
+  "buttonGhost": "شفّاف",
+
+  "themeModeSystem": "النظام",
+  "themeModeLight": "فاتح",
+  "themeModeDark": "داكن",
+  "themeToggleTooltip": "تبديل المظهر",
+
+  "languageLabel": "اللغة",
+  "languageArabic": "العربية",
+  "languageEnglish": "English",
+
+  "navigationPos": "نقطة البيع",
+  "navigationProducts": "المنتجات",
+  "navigationInventory": "المخزون",
+  "navigationReports": "التقارير",
+  "navigationSettings": "الإعدادات",
+
+  "designSystemTitle": "نظام التصميم",
+  "customCardTitle": "بطاقة مخصّصة",
+  "customCardSubtitle": "النمط المرتفع مع عنوانٍ ومحتوى",
+  "outlinedCardTitle": "بطاقة مُحدَّدة",
+  "outlinedCardSubtitle": "مناسبة للإعدادات المجمَّعة",
+  "productSearchLabel": "بحث المنتجات",
+  "productSearchHint": "الاسم أو الباركود",
+
+  "devScreenTitle": "أدوات المطوّر",
+  "devScreenSubtitle": "ملعب الحسابات المالية والضريبة",
+  "devAmountLabel": "المبلغ",
+  "devTaxRateLabel": "نسبة الضريبة (%)",
+  "devQuantityLabel": "الكمية",
+  "devNetLabel": "الصافي",
+  "devTaxLabel": "الضريبة",
+  "devGrossLabel": "الإجمالي",
+  "devInvalidAmount": "أدخل مبلغًا صالحًا",
+  "devCurrencyLabel": "العملة",
+  "devTaxModeLabel": "طريقة الضريبة",
+  "devTaxExclusive": "غير شامل",
+  "devTaxInclusive": "شامل",
+  "devLineTotalLabel": "إجمالي البند",
+  "placeholderComingSoon": "قريبًا",
+
+  "errorTitle": "حدث خطأ ما",
+  "errorUnexpected": "حدث خطأ غير متوقّع. حاول مرة أخرى.",
+  "errorValidation": "يرجى مراجعة القيم المُدخلة.",
+  "errorNotFound": "العنصر المطلوب غير موجود.",
+  "errorConflict": "يتعارض هذا الإجراء مع بيانات قائمة.",
+  "errorPermission": "ليس لديك صلاحية لتنفيذ هذا الإجراء.",
+  "errorStorage": "تعذّر قراءة قاعدة البيانات المحلية أو الكتابة فيها.",
+  "errorCrypto": "فشلت إحدى العمليات الآمنة.",
+  "errorTimeout": "استغرقت العملية وقتًا طويلًا. حاول مرة أخرى.",
+  "errorHardware": "ميزة مطلوبة في الجهاز غير متوفّرة."
+}

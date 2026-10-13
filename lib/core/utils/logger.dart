@@ -1,5 +1,7 @@
 import 'dart:developer' as developer;
 
+import 'clock.dart';
+
 /// Severity of a log record.
 enum LogLevel {
   trace(300),
@@ -196,8 +198,15 @@ abstract final class Redactor {
 /// are filtered by the configured [level] and every payload passes through
 /// [Redactor] before being delivered to the attached [LogSink]s.
 final class AppLogger {
-  AppLogger._({required this.level, required List<LogSink> sinks})
-    : _sinks = List<LogSink>.unmodifiable(sinks);
+  AppLogger._({
+    required this.level,
+    required List<LogSink> sinks,
+    DateTime Function()? nowUtc,
+  }) : _sinks = List<LogSink>.unmodifiable(sinks),
+       _nowUtc = nowUtc ?? _defaultNowUtc;
+
+  /// Default clock: wall time in UTC.
+  static DateTime _defaultNowUtc() => const SystemClock().nowUtc();
 
   static AppLogger? _instance;
 
@@ -207,12 +216,17 @@ final class AppLogger {
     sinks: const <LogSink>[ConsoleLogSink()],
   );
 
-  /// Replaces the configuration (level and/or sinks).
-  static void configure({LogLevel? level, List<LogSink>? sinks}) {
+  /// Replaces the configuration (level, sinks and/or clock).
+  static void configure({
+    LogLevel? level,
+    List<LogSink>? sinks,
+    DateTime Function()? nowUtc,
+  }) {
     final AppLogger current = instance;
     _instance = AppLogger._(
       level: level ?? current.level,
       sinks: sinks ?? current._sinks,
+      nowUtc: nowUtc ?? current._nowUtc,
     );
   }
 
@@ -225,6 +239,9 @@ final class AppLogger {
   final LogLevel level;
 
   final List<LogSink> _sinks;
+
+  /// Injectable clock used to timestamp records.
+  final DateTime Function() _nowUtc;
 
   /// Attached destinations.
   List<LogSink> get sinks => _sinks;
@@ -248,7 +265,7 @@ final class AppLogger {
     final LogRecord record = LogRecord(
       level: level,
       message: message,
-      timeUtc: DateTime.now().toUtc(),
+      timeUtc: _nowUtc(),
       name: name,
       error: error == null ? null : Redactor.sanitize(error),
       stackTrace: stackTrace,

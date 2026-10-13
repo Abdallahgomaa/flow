@@ -1,6 +1,6 @@
-import 'package:flow/app/theme/app_dimens.dart';
 import 'package:flow/app/theme/app_theme.dart';
-import 'package:flow/app/theme/app_theme_extension.dart';
+import 'package:flow/shared/design/app_dimens.dart';
+import 'package:flow/shared/design/app_theme_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

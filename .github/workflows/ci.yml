@@ -1,0 +1,56 @@
+name: CI
+
+# Runs the full verification gate on every push to `main` and every pull
+# request. Mirrors the local commands documented in `EXECUTION_STATE.md`
+# (§4) so a green pipeline means the same thing as a green local run.
+#
+# Steps (in order):
+#   1. dart format --set-exit-if-changed  → formatting is enforced
+#   2. flutter analyze                    → zero analyzer issues
+#   3. tool/check_boundaries.dart         → architecture boundaries hold
+#   4. flutter test                       → unit + widget tests pass
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Keep in sync with the SDK constraint in `pubspec.yaml`.
+  FLUTTER_CHANNEL: stable
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Check architecture boundaries
+        run: dart run tool/check_boundaries.dart
+
+      - name: Run tests
+        run: flutter test

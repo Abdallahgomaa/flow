@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
-import 'app_dimens.dart';
-import 'app_theme_extension.dart';
-import 'app_typography.dart';
+import '../../shared/design/app_colors.dart';
+import '../../shared/design/app_dimens.dart';
+import '../../shared/design/app_theme_extension.dart';
+import '../../shared/design/app_typography.dart';
 
 /// Builds the light and dark [ThemeData] for Flow from the design tokens.
 ///
@@ -100,9 +100,9 @@ abstract final class AppTheme {
           textStyle: textTheme.labelLarge,
         ),
       ),
-      snackBarTheme: SnackBarThemeData(
+      snackBarTheme: const SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.button),
+        shape: RoundedRectangleBorder(borderRadius: AppRadius.button),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(color: scheme.primary),
     );
