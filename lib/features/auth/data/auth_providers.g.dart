@@ -436,3 +436,48 @@ final class DisableUserProvider
 }
 
 String _$disableUserHash() => r'a53800e288538ba3848cae65bb1b8b60f8bbb1ea';
+
+/// Authenticates an operator against a stored password or PIN.
+
+@ProviderFor(signIn)
+final signInProvider = SignInProvider._();
+
+/// Authenticates an operator against a stored password or PIN.
+
+final class SignInProvider extends $FunctionalProvider<SignIn, SignIn, SignIn>
+    with $Provider<SignIn> {
+  /// Authenticates an operator against a stored password or PIN.
+  SignInProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'signInProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$signInHash();
+
+  @$internal
+  @override
+  $ProviderElement<SignIn> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  SignIn create(Ref ref) {
+    return signIn(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SignIn value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SignIn>(value),
+    );
+  }
+}
+
+String _$signInHash() => r'99cfb472d3c413048cecf98df91fdb6543a4e714';

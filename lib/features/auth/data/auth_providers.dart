@@ -10,6 +10,7 @@ import '../domain/use_cases/disable_role.dart';
 import '../domain/use_cases/disable_user.dart';
 import '../domain/use_cases/load_roles.dart';
 import '../domain/use_cases/load_users.dart';
+import '../domain/use_cases/sign_in.dart';
 import '../domain/user_repository.dart';
 import 'argon2_password_hasher.dart';
 import 'drift_role_repository.dart';
@@ -73,3 +74,10 @@ CreateUser createUser(Ref ref) => CreateUser(
 @Riverpod(keepAlive: true)
 DisableUser disableUser(Ref ref) =>
     DisableUser(ref.watch(userRepositoryProvider));
+
+/// Authenticates an operator against a stored password or PIN.
+@Riverpod(keepAlive: true)
+SignIn signIn(Ref ref) => SignIn(
+  ref.watch(userRepositoryProvider),
+  ref.watch(passwordHasherProvider),
+);

@@ -1,3 +1,4 @@
+import 'package:flow/features/auth/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -15,6 +16,13 @@ part 'router.g.dart';
 abstract final class AppRoutes {
   /// Developer tools (Money/Tax playground).
   static const String dev = '/dev';
+
+  /// The sign-in screen (`P1-05`).
+  ///
+  /// It sits outside the shell and is reachable by path for now, so a returning
+  /// operator can be tested by hand before any guard exists. `P1-09` replaces
+  /// this with the real redirect that decides when the app may be entered.
+  static const String login = '/login';
 }
 
 /// Builds the body for a top-level [AppDestination].
@@ -59,6 +67,12 @@ GoRouter appRouter(Ref ref) => GoRouter(
     GoRoute(
       path: AppRoutes.dev,
       builder: (BuildContext context, GoRouterState state) => const DevScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.login,
+      builder: (BuildContext context, GoRouterState state) => LoginScreen(
+        onSignedIn: () => context.go(AppDestination.pointOfSale.path),
+      ),
     ),
   ],
 );

@@ -251,4 +251,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settingsTaxRateInvalid => 'أدخل نسبة ضريبة بين 0 و100.';
+
+  @override
+  String get loginTitle => 'تسجيل الدخول';
+
+  @override
+  String get loginSubtitle => 'أدخل بيانات حسابك للمتابعة.';
+
+  @override
+  String get loginUsernameLabel => 'اسم الدخول';
+
+  @override
+  String get loginSecretLabel => 'كلمة المرور أو رمز PIN';
+
+  @override
+  String get loginSecretHelper => 'استخدم كلمة مرورك أو رمز PIN الخاص بك.';
+
+  @override
+  String get loginSecretToggleTooltip => 'إظهار أو إخفاء';
+
+  @override
+  String get loginSubmit => 'دخول';
+
+  @override
+  String get loginUsernameRequired => 'أدخل اسم الدخول.';
+
+  @override
+  String get loginSecretRequired => 'أدخل كلمة المرور أو رمز PIN.';
+
+  @override
+  String get loginInvalidCredentials => 'اسم الدخول أو كلمة المرور غير صحيحة.';
+
+  @override
+  String get loginAccountDisabled => 'هذا الحساب معطّل. راجع المسؤول.';
+
+  @override
+  String get loginFailed => 'تعذّر تسجيل الدخول. حاول مرة أخرى.';
 }

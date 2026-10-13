@@ -252,4 +252,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsTaxRateInvalid => 'Enter a tax rate between 0 and 100.';
+
+  @override
+  String get loginTitle => 'Sign in';
+
+  @override
+  String get loginSubtitle => 'Enter your account details to continue.';
+
+  @override
+  String get loginUsernameLabel => 'Login name';
+
+  @override
+  String get loginSecretLabel => 'Password or PIN';
+
+  @override
+  String get loginSecretHelper => 'Use your password or your PIN.';
+
+  @override
+  String get loginSecretToggleTooltip => 'Show or hide';
+
+  @override
+  String get loginSubmit => 'Sign in';
+
+  @override
+  String get loginUsernameRequired => 'Enter your login name.';
+
+  @override
+  String get loginSecretRequired => 'Enter your password or PIN.';
+
+  @override
+  String get loginInvalidCredentials => 'Unknown login name or wrong password.';
+
+  @override
+  String get loginAccountDisabled =>
+      'This account is disabled. Contact an administrator.';
+
+  @override
+  String get loginFailed => 'Could not sign in. Please try again.';
 }

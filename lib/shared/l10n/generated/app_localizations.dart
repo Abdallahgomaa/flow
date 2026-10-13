@@ -577,6 +577,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter a tax rate between 0 and 100.'**
   String get settingsTaxRateInvalid;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get loginTitle;
+
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your account details to continue.'**
+  String get loginSubtitle;
+
+  /// No description provided for @loginUsernameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Login name'**
+  String get loginUsernameLabel;
+
+  /// No description provided for @loginSecretLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password or PIN'**
+  String get loginSecretLabel;
+
+  /// No description provided for @loginSecretHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your password or your PIN.'**
+  String get loginSecretHelper;
+
+  /// No description provided for @loginSecretToggleTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Show or hide'**
+  String get loginSecretToggleTooltip;
+
+  /// No description provided for @loginSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get loginSubmit;
+
+  /// No description provided for @loginUsernameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your login name.'**
+  String get loginUsernameRequired;
+
+  /// No description provided for @loginSecretRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password or PIN.'**
+  String get loginSecretRequired;
+
+  /// No description provided for @loginInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown login name or wrong password.'**
+  String get loginInvalidCredentials;
+
+  /// No description provided for @loginAccountDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This account is disabled. Contact an administrator.'**
+  String get loginAccountDisabled;
+
+  /// No description provided for @loginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not sign in. Please try again.'**
+  String get loginFailed;
 }
 
 class _AppLocalizationsDelegate

@@ -93,5 +93,18 @@
   "settingsSaveFailed": "Could not save. Please try again.",
   "settingsLoadFailed": "Could not load the saved settings.",
   "settingsNameRequired": "Enter a business name.",
-  "settingsTaxRateInvalid": "Enter a tax rate between 0 and 100."
+  "settingsTaxRateInvalid": "Enter a tax rate between 0 and 100.",
+
+  "loginTitle": "Sign in",
+  "loginSubtitle": "Enter your account details to continue.",
+  "loginUsernameLabel": "Login name",
+  "loginSecretLabel": "Password or PIN",
+  "loginSecretHelper": "Use your password or your PIN.",
+  "loginSecretToggleTooltip": "Show or hide",
+  "loginSubmit": "Sign in",
+  "loginUsernameRequired": "Enter your login name.",
+  "loginSecretRequired": "Enter your password or PIN.",
+  "loginInvalidCredentials": "Unknown login name or wrong password.",
+  "loginAccountDisabled": "This account is disabled. Contact an administrator.",
+  "loginFailed": "Could not sign in. Please try again."
 }

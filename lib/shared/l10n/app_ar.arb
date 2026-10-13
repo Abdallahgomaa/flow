@@ -88,5 +88,18 @@
   "settingsSaveFailed": "تعذّر الحفظ. حاول مرة أخرى.",
   "settingsLoadFailed": "تعذّر تحميل الإعدادات المحفوظة.",
   "settingsNameRequired": "أدخل اسم النشاط.",
-  "settingsTaxRateInvalid": "أدخل نسبة ضريبة بين 0 و100."
+  "settingsTaxRateInvalid": "أدخل نسبة ضريبة بين 0 و100.",
+
+  "loginTitle": "تسجيل الدخول",
+  "loginSubtitle": "أدخل بيانات حسابك للمتابعة.",
+  "loginUsernameLabel": "اسم الدخول",
+  "loginSecretLabel": "كلمة المرور أو رمز PIN",
+  "loginSecretHelper": "استخدم كلمة مرورك أو رمز PIN الخاص بك.",
+  "loginSecretToggleTooltip": "إظهار أو إخفاء",
+  "loginSubmit": "دخول",
+  "loginUsernameRequired": "أدخل اسم الدخول.",
+  "loginSecretRequired": "أدخل كلمة المرور أو رمز PIN.",
+  "loginInvalidCredentials": "اسم الدخول أو كلمة المرور غير صحيحة.",
+  "loginAccountDisabled": "هذا الحساب معطّل. راجع المسؤول.",
+  "loginFailed": "تعذّر تسجيل الدخول. حاول مرة أخرى."
 }
