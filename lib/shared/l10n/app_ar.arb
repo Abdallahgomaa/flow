@@ -101,5 +101,21 @@
   "loginSecretRequired": "أدخل كلمة المرور أو رمز PIN.",
   "loginInvalidCredentials": "اسم الدخول أو كلمة المرور غير صحيحة.",
   "loginAccountDisabled": "هذا الحساب معطّل. راجع المسؤول.",
-  "loginFailed": "تعذّر تسجيل الدخول. حاول مرة أخرى."
+  "loginFailed": "تعذّر تسجيل الدخول. حاول مرة أخرى.",
+
+  "ownerSetupTitle": "مرحبًا بك في فلو",
+  "ownerSetupSubtitle": "هذا تثبيت جديد. أنشئ حساب المالك للبدء.",
+  "ownerSetupUsernameLabel": "اسم الدخول",
+  "ownerSetupUsernameHelper": "من 3 إلى 32 حرفًا أو رقمًا أو نقطة أو شرطة أو شرطة سفلية.",
+  "ownerSetupSecretLabel": "كلمة المرور أو رمز PIN",
+  "ownerSetupSecretHelper": "8 أحرف على الأقل. ستُدخلها في كل عملية دخول.",
+  "ownerSetupConfirmLabel": "تأكيد كلمة المرور أو رمز PIN",
+  "ownerSetupSubmit": "إنشاء المالك",
+  "ownerSetupUsernameRequired": "أدخل اسم الدخول.",
+  "ownerSetupUsernameInvalid": "استخدم من 3 إلى 32 حرفًا أو رقمًا أو نقطة أو شرطة أو شرطة سفلية.",
+  "ownerSetupSecretRequired": "أدخل كلمة المرور أو رمز PIN.",
+  "ownerSetupSecretTooShort": "استخدم 8 أحرف على الأقل.",
+  "ownerSetupSecretMismatch": "السرّان غير متطابقين.",
+  "ownerSetupAlreadyInitialised": "هذا التثبيت يحتوي حسابًا بالفعل. سجّل الدخول بدلًا من ذلك.",
+  "ownerSetupFailed": "تعذّر إنشاء حساب المالك. حاول مرة أخرى."
 }

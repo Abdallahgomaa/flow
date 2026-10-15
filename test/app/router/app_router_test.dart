@@ -1,4 +1,6 @@
 import 'package:flow/app/app.dart';
+import 'package:flow/app/router/router.dart';
+import 'package:flow/app/shell/app_destination.dart';
 import 'package:flow/app/shell/dev_screen.dart';
 import 'package:flow/app/shell/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,17 @@ void main() {
   testWidgets('shell switches between destinations', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const ProviderScope(child: FlowApp()));
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(container: container, child: const FlowApp()),
+    );
+    await tester.pumpAndSettle();
+
+    // The app opens on the sign-in screen (`P1-05`); this test is about the
+    // shell, so it enters it the way a signed-in operator would.
+    container.read(appRouterProvider).go(AppDestination.pointOfSale.path);
     await tester.pumpAndSettle();
 
     expect(find.byType(HomeScreen), findsOneWidget);
@@ -27,7 +39,17 @@ void main() {
   testWidgets('dev tools button opens the money/tax playground', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const ProviderScope(child: FlowApp()));
+    final ProviderContainer container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(container: container, child: const FlowApp()),
+    );
+    await tester.pumpAndSettle();
+
+    // The app opens on the sign-in screen (`P1-05`); this test is about the
+    // shell, so it enters it the way a signed-in operator would.
+    container.read(appRouterProvider).go(AppDestination.pointOfSale.path);
     await tester.pumpAndSettle();
 
     await tester.tap(find.byKey(const Key('dev-tools')));

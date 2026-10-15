@@ -189,7 +189,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     if (_failure != null) ...<Widget>[
                       const SizedBox(height: AppSpacing.lg),
-                      _ErrorBanner(message: _messageFor(_failure, l10n)),
+                      ErrorBanner(message: _messageFor(_failure, l10n)),
                     ],
                     const SizedBox(height: AppSpacing.xl),
                     CustomButton(
@@ -205,45 +205,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-/// The inline strip that explains why the last attempt failed.
-class _ErrorBanner extends StatelessWidget {
-  const _ErrorBanner({required this.message});
-
-  /// Already-localised explanation.
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final ColorScheme scheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: scheme.errorContainer,
-        borderRadius: AppRadius.input,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Icon(
-            Icons.error_outline,
-            size: AppSizes.iconMd,
-            color: scheme.onErrorContainer,
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Text(
-              message,
-              style: Theme.of(context).textTheme.bodyMedium
-                  ?.copyWith(color: scheme.onErrorContainer),
-            ),
-          ),
-        ],
       ),
     );
   }

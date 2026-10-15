@@ -345,6 +345,64 @@ final class LoadUsersProvider
 
 String _$loadUsersHash() => r'939c8ff3579e008e4b6649cd3aa65766082f95b0';
 
+/// Every account, read straight from the database.
+///
+/// The synchronous `loadUsers` hands out the use case; this provider runs it, so
+/// a widget or the router can watch the result without calling into the database
+/// itself. Kept alive so a single read serves the whole session.
+
+@ProviderFor(allUsers)
+final allUsersProvider = AllUsersProvider._();
+
+/// Every account, read straight from the database.
+///
+/// The synchronous `loadUsers` hands out the use case; this provider runs it, so
+/// a widget or the router can watch the result without calling into the database
+/// itself. Kept alive so a single read serves the whole session.
+
+final class AllUsersProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Result<List<User>>>,
+          Result<List<User>>,
+          FutureOr<Result<List<User>>>
+        >
+    with
+        $FutureModifier<Result<List<User>>>,
+        $FutureProvider<Result<List<User>>> {
+  /// Every account, read straight from the database.
+  ///
+  /// The synchronous `loadUsers` hands out the use case; this provider runs it, so
+  /// a widget or the router can watch the result without calling into the database
+  /// itself. Kept alive so a single read serves the whole session.
+  AllUsersProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'allUsersProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$allUsersHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<Result<List<User>>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Result<List<User>>> create(Ref ref) {
+    return allUsers(ref);
+  }
+}
+
+String _$allUsersHash() => r'b103f291552ea8232b1443913625a6dda553b395';
+
 /// Creates a user account, generating its identifier.
 
 @ProviderFor(createUser)
@@ -481,3 +539,166 @@ final class SignInProvider extends $FunctionalProvider<SignIn, SignIn, SignIn>
 }
 
 String _$signInHash() => r'99cfb472d3c413048cecf98df91fdb6543a4e714';
+
+/// Seeds the built-in roles an empty installation needs before any account.
+///
+/// The owner cannot be created until its role exists, so setup runs this first.
+
+@ProviderFor(seedBuiltInRoles)
+final seedBuiltInRolesProvider = SeedBuiltInRolesProvider._();
+
+/// Seeds the built-in roles an empty installation needs before any account.
+///
+/// The owner cannot be created until its role exists, so setup runs this first.
+
+final class SeedBuiltInRolesProvider
+    extends
+        $FunctionalProvider<
+          SeedBuiltInRoles,
+          SeedBuiltInRoles,
+          SeedBuiltInRoles
+        >
+    with $Provider<SeedBuiltInRoles> {
+  /// Seeds the built-in roles an empty installation needs before any account.
+  ///
+  /// The owner cannot be created until its role exists, so setup runs this first.
+  SeedBuiltInRolesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'seedBuiltInRolesProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$seedBuiltInRolesHash();
+
+  @$internal
+  @override
+  $ProviderElement<SeedBuiltInRoles> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  SeedBuiltInRoles create(Ref ref) {
+    return seedBuiltInRoles(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SeedBuiltInRoles value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SeedBuiltInRoles>(value),
+    );
+  }
+}
+
+String _$seedBuiltInRolesHash() => r'fe2582af7d76c7cad917cad2a07b0d70a7b3be6a';
+
+/// Creates the very first account — the owner — on an empty installation.
+
+@ProviderFor(initializeOwner)
+final initializeOwnerProvider = InitializeOwnerProvider._();
+
+/// Creates the very first account — the owner — on an empty installation.
+
+final class InitializeOwnerProvider
+    extends
+        $FunctionalProvider<InitializeOwner, InitializeOwner, InitializeOwner>
+    with $Provider<InitializeOwner> {
+  /// Creates the very first account — the owner — on an empty installation.
+  InitializeOwnerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'initializeOwnerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$initializeOwnerHash();
+
+  @$internal
+  @override
+  $ProviderElement<InitializeOwner> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  InitializeOwner create(Ref ref) {
+    return initializeOwner(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(InitializeOwner value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<InitializeOwner>(value),
+    );
+  }
+}
+
+String _$initializeOwnerHash() => r'6a6dd3764680fdf7fe546956564d6e44f9cb7a90';
+
+/// Whether the app must still ask for an owner before it can be used.
+///
+/// `true` only when the account list loaded successfully **and** is empty. A
+/// loading or failed read answers `false`, so a database problem can never trap
+/// the app on the setup screen; the destination reports the failure itself.
+
+@ProviderFor(ownerSetupRequired)
+final ownerSetupRequiredProvider = OwnerSetupRequiredProvider._();
+
+/// Whether the app must still ask for an owner before it can be used.
+///
+/// `true` only when the account list loaded successfully **and** is empty. A
+/// loading or failed read answers `false`, so a database problem can never trap
+/// the app on the setup screen; the destination reports the failure itself.
+
+final class OwnerSetupRequiredProvider
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether the app must still ask for an owner before it can be used.
+  ///
+  /// `true` only when the account list loaded successfully **and** is empty. A
+  /// loading or failed read answers `false`, so a database problem can never trap
+  /// the app on the setup screen; the destination reports the failure itself.
+  OwnerSetupRequiredProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ownerSetupRequiredProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$ownerSetupRequiredHash();
+
+  @$internal
+  @override
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    return ownerSetupRequired(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$ownerSetupRequiredHash() =>
+    r'47265b8b5a21d899e6a8e1be4894dc5a7e8dcf93';

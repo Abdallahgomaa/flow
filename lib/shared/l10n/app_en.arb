@@ -106,5 +106,21 @@
   "loginSecretRequired": "Enter your password or PIN.",
   "loginInvalidCredentials": "Unknown login name or wrong password.",
   "loginAccountDisabled": "This account is disabled. Contact an administrator.",
-  "loginFailed": "Could not sign in. Please try again."
+  "loginFailed": "Could not sign in. Please try again.",
+
+  "ownerSetupTitle": "Welcome to Flow",
+  "ownerSetupSubtitle": "This is a new installation. Create the owner account to get started.",
+  "ownerSetupUsernameLabel": "Login name",
+  "ownerSetupUsernameHelper": "3 to 32 letters, digits, dots, dashes or underscores.",
+  "ownerSetupSecretLabel": "Password or PIN",
+  "ownerSetupSecretHelper": "At least 8 characters. You will type it at every sign-in.",
+  "ownerSetupConfirmLabel": "Confirm password or PIN",
+  "ownerSetupSubmit": "Create owner",
+  "ownerSetupUsernameRequired": "Enter a login name.",
+  "ownerSetupUsernameInvalid": "Use 3 to 32 letters, digits, dots, dashes or underscores.",
+  "ownerSetupSecretRequired": "Enter a password or PIN.",
+  "ownerSetupSecretTooShort": "Use at least 8 characters.",
+  "ownerSetupSecretMismatch": "The two secrets do not match.",
+  "ownerSetupAlreadyInitialised": "This installation already has an account. Sign in instead.",
+  "ownerSetupFailed": "Could not create the owner account. Please try again."
 }

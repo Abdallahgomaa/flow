@@ -289,4 +289,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginFailed => 'Could not sign in. Please try again.';
+
+  @override
+  String get ownerSetupTitle => 'Welcome to Flow';
+
+  @override
+  String get ownerSetupSubtitle =>
+      'This is a new installation. Create the owner account to get started.';
+
+  @override
+  String get ownerSetupUsernameLabel => 'Login name';
+
+  @override
+  String get ownerSetupUsernameHelper =>
+      '3 to 32 letters, digits, dots, dashes or underscores.';
+
+  @override
+  String get ownerSetupSecretLabel => 'Password or PIN';
+
+  @override
+  String get ownerSetupSecretHelper =>
+      'At least 8 characters. You will type it at every sign-in.';
+
+  @override
+  String get ownerSetupConfirmLabel => 'Confirm password or PIN';
+
+  @override
+  String get ownerSetupSubmit => 'Create owner';
+
+  @override
+  String get ownerSetupUsernameRequired => 'Enter a login name.';
+
+  @override
+  String get ownerSetupUsernameInvalid =>
+      'Use 3 to 32 letters, digits, dots, dashes or underscores.';
+
+  @override
+  String get ownerSetupSecretRequired => 'Enter a password or PIN.';
+
+  @override
+  String get ownerSetupSecretTooShort => 'Use at least 8 characters.';
+
+  @override
+  String get ownerSetupSecretMismatch => 'The two secrets do not match.';
+
+  @override
+  String get ownerSetupAlreadyInitialised =>
+      'This installation already has an account. Sign in instead.';
+
+  @override
+  String get ownerSetupFailed =>
+      'Could not create the owner account. Please try again.';
 }

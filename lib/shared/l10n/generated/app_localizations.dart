@@ -649,6 +649,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not sign in. Please try again.'**
   String get loginFailed;
+
+  /// No description provided for @ownerSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Flow'**
+  String get ownerSetupTitle;
+
+  /// No description provided for @ownerSetupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a new installation. Create the owner account to get started.'**
+  String get ownerSetupSubtitle;
+
+  /// No description provided for @ownerSetupUsernameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Login name'**
+  String get ownerSetupUsernameLabel;
+
+  /// No description provided for @ownerSetupUsernameHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'3 to 32 letters, digits, dots, dashes or underscores.'**
+  String get ownerSetupUsernameHelper;
+
+  /// No description provided for @ownerSetupSecretLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password or PIN'**
+  String get ownerSetupSecretLabel;
+
+  /// No description provided for @ownerSetupSecretHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters. You will type it at every sign-in.'**
+  String get ownerSetupSecretHelper;
+
+  /// No description provided for @ownerSetupConfirmLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password or PIN'**
+  String get ownerSetupConfirmLabel;
+
+  /// No description provided for @ownerSetupSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create owner'**
+  String get ownerSetupSubmit;
+
+  /// No description provided for @ownerSetupUsernameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a login name.'**
+  String get ownerSetupUsernameRequired;
+
+  /// No description provided for @ownerSetupUsernameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 3 to 32 letters, digits, dots, dashes or underscores.'**
+  String get ownerSetupUsernameInvalid;
+
+  /// No description provided for @ownerSetupSecretRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a password or PIN.'**
+  String get ownerSetupSecretRequired;
+
+  /// No description provided for @ownerSetupSecretTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters.'**
+  String get ownerSetupSecretTooShort;
+
+  /// No description provided for @ownerSetupSecretMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The two secrets do not match.'**
+  String get ownerSetupSecretMismatch;
+
+  /// No description provided for @ownerSetupAlreadyInitialised.
+  ///
+  /// In en, this message translates to:
+  /// **'This installation already has an account. Sign in instead.'**
+  String get ownerSetupAlreadyInitialised;
+
+  /// No description provided for @ownerSetupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not create the owner account. Please try again.'**
+  String get ownerSetupFailed;
 }
 
 class _AppLocalizationsDelegate

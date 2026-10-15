@@ -287,4 +287,53 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loginFailed => 'تعذّر تسجيل الدخول. حاول مرة أخرى.';
+
+  @override
+  String get ownerSetupTitle => 'مرحبًا بك في فلو';
+
+  @override
+  String get ownerSetupSubtitle => 'هذا تثبيت جديد. أنشئ حساب المالك للبدء.';
+
+  @override
+  String get ownerSetupUsernameLabel => 'اسم الدخول';
+
+  @override
+  String get ownerSetupUsernameHelper =>
+      'من 3 إلى 32 حرفًا أو رقمًا أو نقطة أو شرطة أو شرطة سفلية.';
+
+  @override
+  String get ownerSetupSecretLabel => 'كلمة المرور أو رمز PIN';
+
+  @override
+  String get ownerSetupSecretHelper =>
+      '8 أحرف على الأقل. ستُدخلها في كل عملية دخول.';
+
+  @override
+  String get ownerSetupConfirmLabel => 'تأكيد كلمة المرور أو رمز PIN';
+
+  @override
+  String get ownerSetupSubmit => 'إنشاء المالك';
+
+  @override
+  String get ownerSetupUsernameRequired => 'أدخل اسم الدخول.';
+
+  @override
+  String get ownerSetupUsernameInvalid =>
+      'استخدم من 3 إلى 32 حرفًا أو رقمًا أو نقطة أو شرطة أو شرطة سفلية.';
+
+  @override
+  String get ownerSetupSecretRequired => 'أدخل كلمة المرور أو رمز PIN.';
+
+  @override
+  String get ownerSetupSecretTooShort => 'استخدم 8 أحرف على الأقل.';
+
+  @override
+  String get ownerSetupSecretMismatch => 'السرّان غير متطابقين.';
+
+  @override
+  String get ownerSetupAlreadyInitialised =>
+      'هذا التثبيت يحتوي حسابًا بالفعل. سجّل الدخول بدلًا من ذلك.';
+
+  @override
+  String get ownerSetupFailed => 'تعذّر إنشاء حساب المالك. حاول مرة أخرى.';
 }
