@@ -43,7 +43,7 @@ Widget _pageFor(AppDestination destination) => switch (destination) {
 /// disposed with its scope.
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) => GoRouter(
-  initialLocation: AppDestination.pointOfSale.path,
+  initialLocation: AppRoutes.login,
   routes: <RouteBase>[
     StatefulShellRoute.indexedStack(
       builder: (
