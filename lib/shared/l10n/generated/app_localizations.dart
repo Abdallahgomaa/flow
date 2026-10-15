@@ -739,6 +739,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not create the owner account. Please try again.'**
   String get ownerSetupFailed;
+
+  /// No description provided for @catalogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get catalogTitle;
+
+  /// No description provided for @catalogDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product details'**
+  String get catalogDetailsTitle;
+
+  /// No description provided for @catalogCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New product'**
+  String get catalogCreateTitle;
+
+  /// No description provided for @catalogEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit product'**
+  String get catalogEditTitle;
+
+  /// No description provided for @catalogNewProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'New product'**
+  String get catalogNewProduct;
+
+  /// No description provided for @catalogEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get catalogEdit;
+
+  /// No description provided for @catalogBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get catalogBack;
+
+  /// No description provided for @catalogLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the products.'**
+  String get catalogLoadFailed;
+
+  /// No description provided for @catalogSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get catalogSaved;
+
+  /// No description provided for @catalogEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No products yet'**
+  String get catalogEmpty;
+
+  /// No description provided for @catalogEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first product to start selling.'**
+  String get catalogEmptyHint;
+
+  /// No description provided for @catalogNoMatchesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another word.'**
+  String get catalogNoMatchesHint;
+
+  /// No description provided for @catalogProductsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Products: {count}'**
+  String catalogProductsCount(int count);
+
+  /// No description provided for @catalogDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get catalogDisabled;
+
+  /// No description provided for @catalogNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get catalogNameLabel;
+
+  /// No description provided for @catalogTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get catalogTypeLabel;
+
+  /// No description provided for @catalogCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get catalogCategoryLabel;
+
+  /// No description provided for @catalogStockUnitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock unit'**
+  String get catalogStockUnitLabel;
+
+  /// No description provided for @catalogPurchaseUnitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase unit'**
+  String get catalogPurchaseUnitLabel;
+
+  /// No description provided for @catalogReorderLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-order level'**
+  String get catalogReorderLevel;
+
+  /// No description provided for @catalogNoCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No category'**
+  String get catalogNoCategory;
+
+  /// No description provided for @catalogNoneOption.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get catalogNoneOption;
+
+  /// No description provided for @catalogSectionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get catalogSectionDetails;
+
+  /// No description provided for @catalogSectionPricing.
+  ///
+  /// In en, this message translates to:
+  /// **'Pricing'**
+  String get catalogSectionPricing;
+
+  /// No description provided for @catalogSectionStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock'**
+  String get catalogSectionStock;
+
+  /// No description provided for @catalogSectionBands.
+  ///
+  /// In en, this message translates to:
+  /// **'Price bands'**
+  String get catalogSectionBands;
+
+  /// No description provided for @catalogSectionBarcodes.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcodes'**
+  String get catalogSectionBarcodes;
+
+  /// No description provided for @catalogSalePrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale price'**
+  String get catalogSalePrice;
+
+  /// No description provided for @catalogCostPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost price'**
+  String get catalogCostPrice;
+
+  /// No description provided for @catalogNoBands.
+  ///
+  /// In en, this message translates to:
+  /// **'No price bands.'**
+  String get catalogNoBands;
+
+  /// No description provided for @catalogNoBarcodes.
+  ///
+  /// In en, this message translates to:
+  /// **'No barcodes.'**
+  String get catalogNoBarcodes;
+
+  /// No description provided for @catalogBandFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'from {quantity}'**
+  String catalogBandFrom(String quantity);
+
+  /// No description provided for @catalogBarcodeMultiplier.
+  ///
+  /// In en, this message translates to:
+  /// **'×{multiplier}'**
+  String catalogBarcodeMultiplier(String multiplier);
+
+  /// No description provided for @catalogNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a product name.'**
+  String get catalogNameRequired;
+
+  /// No description provided for @catalogStockUnitRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the unit the stock is counted in.'**
+  String get catalogStockUnitRequired;
+
+  /// No description provided for @catalogPriceNegative.
+  ///
+  /// In en, this message translates to:
+  /// **'A price cannot be negative.'**
+  String get catalogPriceNegative;
+
+  /// No description provided for @catalogPriceInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid price.'**
+  String get catalogPriceInvalid;
+
+  /// No description provided for @catalogQuantityInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid quantity.'**
+  String get catalogQuantityInvalid;
+
+  /// No description provided for @catalogPricesReadOnlyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your role may not see or change prices. They keep their current values.'**
+  String get catalogPricesReadOnlyNote;
+
+  /// No description provided for @productTypeSimple.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple'**
+  String get productTypeSimple;
+
+  /// No description provided for @productTypeWeighted.
+  ///
+  /// In en, this message translates to:
+  /// **'Weighted'**
+  String get productTypeWeighted;
+
+  /// No description provided for @productTypeService.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get productTypeService;
+
+  /// No description provided for @productTypeRawMaterial.
+  ///
+  /// In en, this message translates to:
+  /// **'Raw material'**
+  String get productTypeRawMaterial;
+
+  /// No description provided for @productTypeComposite.
+  ///
+  /// In en, this message translates to:
+  /// **'Composite'**
+  String get productTypeComposite;
+
+  /// No description provided for @productTypeBundle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bundle'**
+  String get productTypeBundle;
+
+  /// No description provided for @priceTierRetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Retail'**
+  String get priceTierRetail;
+
+  /// No description provided for @priceTierWholesale.
+  ///
+  /// In en, this message translates to:
+  /// **'Wholesale'**
+  String get priceTierWholesale;
+
+  /// No description provided for @priceTierCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get priceTierCustom;
 }
 
 class _AppLocalizationsDelegate

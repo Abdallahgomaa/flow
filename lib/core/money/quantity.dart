@@ -84,6 +84,35 @@ final class Quantity implements Comparable<Quantity> {
   /// Multiplies this quantity by a whole [factor].
   Quantity operator *(int factor) => Quantity.thousandths(thousandths * factor);
 
+  /// Multiplies by the ratio `numerator / denominator` with explicit rounding.
+  ///
+  /// Converting between units is the reason this exists: one carton may hold
+  /// twelve pieces, so a quantity is scaled by `numerator / denominator` and
+  /// rounded exactly once. The maths runs in [BigInt] and the decision is handed
+  /// to [Rounding.divide], the same helper `Money.multiplyRatio` uses, so both
+  /// value objects round identically instead of each growing its own rule
+  /// (AGENTS rule 1). [denominator] must be strictly positive.
+  Quantity multiplyRatio(
+    int numerator,
+    int denominator, {
+    RoundingMode mode = RoundingMode.halfUp,
+  }) {
+    if (denominator <= 0) {
+      throw ArgumentError.value(
+        denominator,
+        'denominator',
+        'must be greater than zero',
+      );
+    }
+    final BigInt product = BigInt.from(thousandths) * BigInt.from(numerator);
+    final BigInt rounded = Rounding.divide(
+      product,
+      BigInt.from(denominator),
+      mode,
+    );
+    return Quantity.thousandths(rounded.toInt());
+  }
+
   /// The line total for [unitPrice] at this quantity, rounded with [mode].
   Money lineTotal(Money unitPrice, {RoundingMode mode = RoundingMode.halfUp}) =>
       unitPrice.multiplyRatio(thousandths, 1000, mode: mode);

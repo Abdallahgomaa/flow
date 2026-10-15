@@ -2,6 +2,10 @@ import 'package:flow/features/auth/auth.dart';
 import 'package:flow/features/auth/data/auth_providers.dart';
 import 'package:flow/features/auth/presentation/login_screen.dart';
 import 'package:flow/features/auth/presentation/owner_setup_screen.dart';
+import 'package:flow/features/catalog/presentation/catalog_routes.dart';
+import 'package:flow/features/catalog/presentation/product_details_screen.dart';
+import 'package:flow/features/catalog/presentation/product_form_screen.dart';
+import 'package:flow/features/catalog/presentation/product_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -38,15 +42,50 @@ abstract final class AppRoutes {
 
 /// Builds the body for a top-level [AppDestination].
 ///
-/// The point-of-sale and settings branches have real pages; the rest share the
-/// placeholder until their features land.
+/// The point-of-sale, products and settings branches have real pages; the rest
+/// share the placeholder until their features land.
 Widget _pageFor(AppDestination destination) => switch (destination) {
   AppDestination.pointOfSale => const HomeScreen(),
+  AppDestination.products => const ProductListScreen(),
   AppDestination.settings => const SettingsRoute(),
-  AppDestination.products ||
   AppDestination.inventory ||
   AppDestination.reports => PlaceholderPage(destination: destination),
 };
+
+/// The routes nested under a top-level destination.
+///
+/// Only products has any so far: the list sits at the branch root, and a product
+/// is opened beneath it. The two paths come from `CatalogRoutes`, so the router
+/// and the screens cannot disagree about how a product's location is spelled.
+///
+/// The literal segment is listed before the parameterised one because GoRouter
+/// matches in order: `new` must win over `:id`, or the create form would be read
+/// as a product whose id is "new".
+List<RouteBase> _childRoutesFor(AppDestination destination) {
+  if (destination != AppDestination.products) {
+    return const <RouteBase>[];
+  }
+
+  return <RouteBase>[
+    GoRoute(
+      path: CatalogRoutes.createSegment,
+      builder: (BuildContext context, GoRouterState state) =>
+          const ProductFormScreen(),
+    ),
+    GoRoute(
+      path: CatalogRoutes.idSegment,
+      builder: (BuildContext context, GoRouterState state) =>
+          ProductDetailsScreen(productId: state.pathParameters['id']!),
+      routes: <RouteBase>[
+        GoRoute(
+          path: CatalogRoutes.editSegment,
+          builder: (BuildContext context, GoRouterState state) =>
+              ProductFormScreen(productId: state.pathParameters['id']),
+        ),
+      ],
+    ),
+  ];
+}
 
 /// The application router.
 ///
@@ -94,6 +133,7 @@ GoRouter appRouter(Ref ref) {
                   path: destination.path,
                   builder: (BuildContext context, GoRouterState state) =>
                       _pageFor(destination),
+                  routes: _childRoutesFor(destination),
                 ),
               ],
             ),

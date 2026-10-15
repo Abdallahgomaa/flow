@@ -1,0 +1,15 @@
+# Build options for this package.
+#
+# The catalogue's quick search (`P2-06`) is an fts5 virtual table
+# (`lib/core/database/tables/product_search.drift`). drift_dev only parses
+# `CREATE VIRTUAL TABLE … USING <module>` when that module is enabled for the
+# analyzer; without this file the table is dropped from the schema and the build
+# fails with `Unknown module "fts5", did you register it?`.
+targets:
+  $default:
+    builders:
+      drift_dev:
+        options:
+          sqlite:
+            modules:
+              - fts5

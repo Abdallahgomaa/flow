@@ -117,5 +117,71 @@
   "ownerSetupSecretTooShort": "استخدم 8 أحرف على الأقل.",
   "ownerSetupSecretMismatch": "السرّان غير متطابقين.",
   "ownerSetupAlreadyInitialised": "هذا التثبيت يحتوي حسابًا بالفعل. سجّل الدخول بدلًا من ذلك.",
-  "ownerSetupFailed": "تعذّر إنشاء حساب المالك. حاول مرة أخرى."
+  "ownerSetupFailed": "تعذّر إنشاء حساب المالك. حاول مرة أخرى.",
+
+  "catalogTitle": "المنتجات",
+  "catalogDetailsTitle": "تفاصيل المنتج",
+  "catalogCreateTitle": "منتج جديد",
+  "catalogEditTitle": "تعديل المنتج",
+  "catalogNewProduct": "منتج جديد",
+  "catalogEdit": "تعديل",
+  "catalogBack": "رجوع",
+  "catalogLoadFailed": "تعذّر تحميل المنتجات.",
+  "catalogSaved": "تم الحفظ",
+  "catalogEmpty": "لا توجد منتجات بعد",
+  "catalogEmptyHint": "أضف أول منتج للبدء في البيع.",
+  "catalogNoMatchesHint": "جرّب كلمة أخرى.",
+  "catalogProductsCount": "المنتجات: {count}",
+  "@catalogProductsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "catalogDisabled": "معطَّل",
+  "catalogNameLabel": "الاسم",
+  "catalogTypeLabel": "النوع",
+  "catalogCategoryLabel": "التصنيف",
+  "catalogStockUnitLabel": "وحدة المخزون",
+  "catalogPurchaseUnitLabel": "وحدة الشراء",
+  "catalogReorderLevel": "حد إعادة الطلب",
+  "catalogNoCategory": "بلا تصنيف",
+  "catalogNoneOption": "بدون",
+  "catalogSectionDetails": "البيانات الأساسية",
+  "catalogSectionPricing": "الأسعار",
+  "catalogSectionStock": "المخزون",
+  "catalogSectionBands": "شرائح الأسعار",
+  "catalogSectionBarcodes": "الباركود",
+  "catalogSalePrice": "سعر البيع",
+  "catalogCostPrice": "سعر التكلفة",
+  "catalogNoBands": "لا توجد شرائح أسعار.",
+  "catalogNoBarcodes": "لا توجد باركودات.",
+  "catalogBandFrom": "من {quantity}",
+  "@catalogBandFrom": {
+    "placeholders": {
+      "quantity": { "type": "String" }
+    }
+  },
+  "catalogBarcodeMultiplier": "×{multiplier}",
+  "@catalogBarcodeMultiplier": {
+    "placeholders": {
+      "multiplier": { "type": "String" }
+    }
+  },
+  "catalogNameRequired": "أدخل اسم المنتج.",
+  "catalogStockUnitRequired": "اختر وحدة المخزون.",
+  "catalogPriceNegative": "لا يمكن أن يكون السعر سالبًا.",
+  "catalogPriceInvalid": "أدخل سعرًا صالحًا.",
+  "catalogQuantityInvalid": "أدخل كمية صالحة.",
+  "catalogPricesReadOnlyNote": "دورك لا يسمح برؤية الأسعار أو تغييرها، وستبقى قيمها كما هي.",
+
+  "productTypeSimple": "بسيط",
+  "productTypeWeighted": "موزون",
+  "productTypeService": "خدمة",
+  "productTypeRawMaterial": "مادة خام",
+  "productTypeComposite": "مركّب",
+  "productTypeBundle": "حزمة",
+
+  "priceTierRetail": "تجزئة",
+  "priceTierWholesale": "جملة",
+  "priceTierCustom": "مخصص"
 }

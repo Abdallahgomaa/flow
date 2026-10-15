@@ -92,4 +92,65 @@ void main() {
       );
     });
   });
+
+  group('Quantity.multiplyRatio', () {
+    test('scales by an exact ratio', () {
+      // The unit-conversion case: two cartons of twelve pieces each.
+      expect(Quantity.units(2).multiplyRatio(12000, 1000), Quantity.units(24));
+    });
+
+    test('rounds half up by default', () {
+      // One piece of a seventy-two piece box: 13.888… thousandths rounds to 14.
+      expect(
+        const Quantity.thousandths(1000).multiplyRatio(1000, 72000),
+        const Quantity.thousandths(14),
+      );
+    });
+
+    test('honours the rounding mode', () {
+      const Quantity amount = Quantity.thousandths(1000);
+
+      expect(
+        amount.multiplyRatio(1000, 72000, mode: RoundingMode.down),
+        const Quantity.thousandths(13),
+      );
+      expect(
+        amount.multiplyRatio(1000, 72000, mode: RoundingMode.up),
+        const Quantity.thousandths(14),
+      );
+      expect(
+        amount.multiplyRatio(1000, 72000, mode: RoundingMode.halfEven),
+        const Quantity.thousandths(14),
+      );
+    });
+
+    test('rounds symmetrically around zero', () {
+      expect(
+        const Quantity.thousandths(-1000).multiplyRatio(1000, 72000),
+        const Quantity.thousandths(-14),
+      );
+    });
+
+    test('stays exact for large values, so no precision is lost', () {
+      // Well past the point where a double would have drifted, the integer
+      // product is still exact because the maths runs in BigInt.
+      const int huge = 1 << 40;
+
+      expect(
+        const Quantity.thousandths(huge).multiplyRatio(3, 1),
+        const Quantity.thousandths(huge * 3),
+      );
+    });
+
+    test('rejects a non-positive denominator', () {
+      expect(
+        () => Quantity.units(1).multiplyRatio(1, 0),
+        throwsA(isA<ArgumentError>()),
+      );
+      expect(
+        () => Quantity.units(1).multiplyRatio(1, -2),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
+  });
 }

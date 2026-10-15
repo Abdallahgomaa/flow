@@ -336,4 +336,155 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ownerSetupFailed => 'تعذّر إنشاء حساب المالك. حاول مرة أخرى.';
+
+  @override
+  String get catalogTitle => 'المنتجات';
+
+  @override
+  String get catalogDetailsTitle => 'تفاصيل المنتج';
+
+  @override
+  String get catalogCreateTitle => 'منتج جديد';
+
+  @override
+  String get catalogEditTitle => 'تعديل المنتج';
+
+  @override
+  String get catalogNewProduct => 'منتج جديد';
+
+  @override
+  String get catalogEdit => 'تعديل';
+
+  @override
+  String get catalogBack => 'رجوع';
+
+  @override
+  String get catalogLoadFailed => 'تعذّر تحميل المنتجات.';
+
+  @override
+  String get catalogSaved => 'تم الحفظ';
+
+  @override
+  String get catalogEmpty => 'لا توجد منتجات بعد';
+
+  @override
+  String get catalogEmptyHint => 'أضف أول منتج للبدء في البيع.';
+
+  @override
+  String get catalogNoMatchesHint => 'جرّب كلمة أخرى.';
+
+  @override
+  String catalogProductsCount(int count) {
+    return 'المنتجات: $count';
+  }
+
+  @override
+  String get catalogDisabled => 'معطَّل';
+
+  @override
+  String get catalogNameLabel => 'الاسم';
+
+  @override
+  String get catalogTypeLabel => 'النوع';
+
+  @override
+  String get catalogCategoryLabel => 'التصنيف';
+
+  @override
+  String get catalogStockUnitLabel => 'وحدة المخزون';
+
+  @override
+  String get catalogPurchaseUnitLabel => 'وحدة الشراء';
+
+  @override
+  String get catalogReorderLevel => 'حد إعادة الطلب';
+
+  @override
+  String get catalogNoCategory => 'بلا تصنيف';
+
+  @override
+  String get catalogNoneOption => 'بدون';
+
+  @override
+  String get catalogSectionDetails => 'البيانات الأساسية';
+
+  @override
+  String get catalogSectionPricing => 'الأسعار';
+
+  @override
+  String get catalogSectionStock => 'المخزون';
+
+  @override
+  String get catalogSectionBands => 'شرائح الأسعار';
+
+  @override
+  String get catalogSectionBarcodes => 'الباركود';
+
+  @override
+  String get catalogSalePrice => 'سعر البيع';
+
+  @override
+  String get catalogCostPrice => 'سعر التكلفة';
+
+  @override
+  String get catalogNoBands => 'لا توجد شرائح أسعار.';
+
+  @override
+  String get catalogNoBarcodes => 'لا توجد باركودات.';
+
+  @override
+  String catalogBandFrom(String quantity) {
+    return 'من $quantity';
+  }
+
+  @override
+  String catalogBarcodeMultiplier(String multiplier) {
+    return '×$multiplier';
+  }
+
+  @override
+  String get catalogNameRequired => 'أدخل اسم المنتج.';
+
+  @override
+  String get catalogStockUnitRequired => 'اختر وحدة المخزون.';
+
+  @override
+  String get catalogPriceNegative => 'لا يمكن أن يكون السعر سالبًا.';
+
+  @override
+  String get catalogPriceInvalid => 'أدخل سعرًا صالحًا.';
+
+  @override
+  String get catalogQuantityInvalid => 'أدخل كمية صالحة.';
+
+  @override
+  String get catalogPricesReadOnlyNote =>
+      'دورك لا يسمح برؤية الأسعار أو تغييرها، وستبقى قيمها كما هي.';
+
+  @override
+  String get productTypeSimple => 'بسيط';
+
+  @override
+  String get productTypeWeighted => 'موزون';
+
+  @override
+  String get productTypeService => 'خدمة';
+
+  @override
+  String get productTypeRawMaterial => 'مادة خام';
+
+  @override
+  String get productTypeComposite => 'مركّب';
+
+  @override
+  String get productTypeBundle => 'حزمة';
+
+  @override
+  String get priceTierRetail => 'تجزئة';
+
+  @override
+  String get priceTierWholesale => 'جملة';
+
+  @override
+  String get priceTierCustom => 'مخصص';
 }

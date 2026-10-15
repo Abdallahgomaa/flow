@@ -3,6 +3,7 @@ import 'package:flow/app/router/router.dart';
 import 'package:flow/app/shell/app_destination.dart';
 import 'package:flow/app/shell/dev_screen.dart';
 import 'package:flow/app/shell/home_screen.dart';
+import 'package:flow/features/catalog/presentation/product_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,7 +33,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Products'), findsWidgets);
-    expect(find.text('Coming soon'), findsOneWidget);
+    // `P2-05` replaced this branch's placeholder with the real product list, so
+    // the shell now shows a page instead of the "coming soon" notice.
+    expect(find.byType(ProductListScreen), findsOneWidget);
+    expect(find.text('Coming soon'), findsNothing);
     expect(find.byType(HomeScreen), findsNothing);
   });
 

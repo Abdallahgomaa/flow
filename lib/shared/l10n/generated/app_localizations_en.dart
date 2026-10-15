@@ -340,4 +340,156 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get ownerSetupFailed =>
       'Could not create the owner account. Please try again.';
+
+  @override
+  String get catalogTitle => 'Products';
+
+  @override
+  String get catalogDetailsTitle => 'Product details';
+
+  @override
+  String get catalogCreateTitle => 'New product';
+
+  @override
+  String get catalogEditTitle => 'Edit product';
+
+  @override
+  String get catalogNewProduct => 'New product';
+
+  @override
+  String get catalogEdit => 'Edit';
+
+  @override
+  String get catalogBack => 'Back';
+
+  @override
+  String get catalogLoadFailed => 'Could not load the products.';
+
+  @override
+  String get catalogSaved => 'Saved';
+
+  @override
+  String get catalogEmpty => 'No products yet';
+
+  @override
+  String get catalogEmptyHint => 'Add your first product to start selling.';
+
+  @override
+  String get catalogNoMatchesHint => 'Try another word.';
+
+  @override
+  String catalogProductsCount(int count) {
+    return 'Products: $count';
+  }
+
+  @override
+  String get catalogDisabled => 'Disabled';
+
+  @override
+  String get catalogNameLabel => 'Name';
+
+  @override
+  String get catalogTypeLabel => 'Type';
+
+  @override
+  String get catalogCategoryLabel => 'Category';
+
+  @override
+  String get catalogStockUnitLabel => 'Stock unit';
+
+  @override
+  String get catalogPurchaseUnitLabel => 'Purchase unit';
+
+  @override
+  String get catalogReorderLevel => 'Re-order level';
+
+  @override
+  String get catalogNoCategory => 'No category';
+
+  @override
+  String get catalogNoneOption => 'None';
+
+  @override
+  String get catalogSectionDetails => 'Details';
+
+  @override
+  String get catalogSectionPricing => 'Pricing';
+
+  @override
+  String get catalogSectionStock => 'Stock';
+
+  @override
+  String get catalogSectionBands => 'Price bands';
+
+  @override
+  String get catalogSectionBarcodes => 'Barcodes';
+
+  @override
+  String get catalogSalePrice => 'Sale price';
+
+  @override
+  String get catalogCostPrice => 'Cost price';
+
+  @override
+  String get catalogNoBands => 'No price bands.';
+
+  @override
+  String get catalogNoBarcodes => 'No barcodes.';
+
+  @override
+  String catalogBandFrom(String quantity) {
+    return 'from $quantity';
+  }
+
+  @override
+  String catalogBarcodeMultiplier(String multiplier) {
+    return '×$multiplier';
+  }
+
+  @override
+  String get catalogNameRequired => 'Enter a product name.';
+
+  @override
+  String get catalogStockUnitRequired =>
+      'Choose the unit the stock is counted in.';
+
+  @override
+  String get catalogPriceNegative => 'A price cannot be negative.';
+
+  @override
+  String get catalogPriceInvalid => 'Enter a valid price.';
+
+  @override
+  String get catalogQuantityInvalid => 'Enter a valid quantity.';
+
+  @override
+  String get catalogPricesReadOnlyNote =>
+      'Your role may not see or change prices. They keep their current values.';
+
+  @override
+  String get productTypeSimple => 'Simple';
+
+  @override
+  String get productTypeWeighted => 'Weighted';
+
+  @override
+  String get productTypeService => 'Service';
+
+  @override
+  String get productTypeRawMaterial => 'Raw material';
+
+  @override
+  String get productTypeComposite => 'Composite';
+
+  @override
+  String get productTypeBundle => 'Bundle';
+
+  @override
+  String get priceTierRetail => 'Retail';
+
+  @override
+  String get priceTierWholesale => 'Wholesale';
+
+  @override
+  String get priceTierCustom => 'Custom';
 }

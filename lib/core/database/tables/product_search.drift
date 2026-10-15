@@ -1,0 +1,12 @@
+-- The catalogue's quick-search index (`P2-06`).
+--
+-- One indexed name per product, keyed by the product's rowid. It stores its own
+-- copy of the text on purpose: a plain (non-external-content) fts5 table needs
+-- no `'delete'` command to stay consistent, so the triggers in `AppDatabase` can
+-- maintain it with a plain INSERT, UPDATE and DELETE. `products` stays the only
+-- source of truth; this table is derived state, and
+-- `RebuildProductSearchIndex` can regenerate it at any time.
+--
+-- drift only supports declaring a virtual table in a `.drift` file, and only
+-- when the module is enabled for the analyzer — see the root `build.yaml`.
+CREATE VIRTUAL TABLE product_search USING fts5(name);
