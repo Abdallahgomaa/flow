@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:flow/core/utils/logger.dart';
 
 import 'tables/app_settings.dart';
 import 'tables/audit_checkpoints.dart';
@@ -49,16 +50,33 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 9;
 
+  /// The DDL of the catalogue's full-text index.
+  ///
+  /// Stated once because two places need exactly the same statement: the
+  /// migration that installs the index, and the search repository's rebuild,
+  /// which repairs an index that was dropped or restored incomplete.
+  static const String productSearchDdl =
+      'CREATE VIRTUAL TABLE IF NOT EXISTS product_search USING fts5(name)';
+
+  static const String _logName = 'core.app_database';
+
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (Migrator m) async {
-      await m.createAll();
+      final bool indexed = await _createSchema(m);
       await _ensureAppendOnlyGuards();
       // Nothing to index yet, but the triggers have to exist before the first
       // product is inserted.
-      await _ensureProductSearchTriggers();
+      if (indexed) {
+        await _ensureProductSearchTriggers();
+      }
     },
     onUpgrade: (Migrator m, int from, int to) async {
+      // Resolved first: the index has no foreign key to `products`, so it can
+      // be created before any other table on the way up from v1. A `false`
+      // answer means this SQLite has no FTS5, and search will use its scan
+      // fallback instead of failing to open the database.
+      final bool indexed = await _ensureProductSearchIndex();
       if (from < 2) {
         await m.createTable(auditLog);
       }
@@ -87,17 +105,17 @@ class AppDatabase extends _$AppDatabase {
         // Price tiers reference `products`, so they can only follow them.
         await m.createTable(priceTiers);
       }
-      if (from < 9) {
+      if (from < 9 && indexed) {
         // The search index is created empty and then filled from the products a
         // shop already has, so upgrading never loses the ability to search.
-        // The triggers are installed after the backfill: an INSERT into an fts5
-        // table is what the triggers themselves do, and doing it twice would
-        // index the same product twice.
-        await m.createTable(productSearch);
+        // The triggers are installed after the backfill: they write to the same
+        // table, and running both would index the same product twice.
         await _backfillProductSearch();
       }
       await _ensureAppendOnlyGuards();
-      await _ensureProductSearchTriggers();
+      if (indexed) {
+        await _ensureProductSearchTriggers();
+      }
     },
     beforeOpen: (OpeningDetails details) async {
       // `foreign_keys` is a per-connection setting; re-assert it here so the
@@ -106,6 +124,47 @@ class AppDatabase extends _$AppDatabase {
       await customStatement('PRAGMA foreign_keys = ON');
     },
   );
+
+  /// Creates every schema entity except the search index, then the index.
+  ///
+  /// The index is created separately — instead of through `createAll()` — so a
+  /// platform whose SQLite has no FTS5 still gets the rest of the schema. The
+  /// only thing it loses is the index, and search then answers from its scan
+  /// fallback (`docs/P0-11_sqlite_spike.md`, decision 1).
+  ///
+  /// Returns whether the index exists afterwards.
+  Future<bool> _createSchema(Migrator m) async {
+    for (final DatabaseSchemaEntity entity in allSchemaEntities) {
+      if (entity == productSearch) {
+        continue;
+      }
+      await m.create(entity);
+    }
+    return _ensureProductSearchIndex();
+  }
+
+  /// Creates the full-text index when it is missing, reporting whether an index
+  /// can be used.
+  ///
+  /// `IF NOT EXISTS` makes this safe on a database that already has the table —
+  /// a fresh install, or an upgrade whose earlier attempt failed halfway.
+  Future<bool> _ensureProductSearchIndex() async {
+    try {
+      await customStatement(productSearchDdl);
+      return true;
+    } on Object catch (error, stackTrace) {
+      // Not fatal: everything except search works without the index, and the
+      // alternative would be an app that cannot open its database because one
+      // optional feature is missing from the SQLite build.
+      AppLogger.instance.warning(
+        'Full-text search is unavailable; falling back to name scans.',
+        name: _logName,
+        error: error,
+        stackTrace: stackTrace,
+      );
+      return false;
+    }
+  }
 
   /// Audit tables are append-only (AGENTS rule 4). SQLite has no deny
   /// privilege, so the guarantee is enforced with `BEFORE UPDATE/DELETE`

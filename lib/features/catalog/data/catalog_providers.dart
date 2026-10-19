@@ -9,6 +9,7 @@ import '../domain/category.dart';
 import '../domain/category_repository.dart';
 import '../domain/product.dart';
 import '../domain/product_repository.dart';
+import '../domain/product_search_repository.dart';
 import '../domain/tier_price_repository.dart';
 import '../domain/unit.dart';
 import '../domain/unit_repository.dart';
@@ -23,6 +24,7 @@ import '../domain/use_cases/disable_category.dart';
 import '../domain/use_cases/disable_product.dart';
 import '../domain/use_cases/disable_tier_price.dart';
 import '../domain/use_cases/disable_unit.dart';
+import '../domain/use_cases/ensure_default_stock_unit.dart';
 import '../domain/use_cases/find_barcode_by_code.dart';
 import '../domain/use_cases/load_barcodes_for_product.dart';
 import '../domain/use_cases/load_categories.dart';
@@ -30,12 +32,15 @@ import '../domain/use_cases/load_product_by_id.dart';
 import '../domain/use_cases/load_products.dart';
 import '../domain/use_cases/load_tier_prices_for_product.dart';
 import '../domain/use_cases/load_units.dart';
+import '../domain/use_cases/rebuild_product_search_index.dart';
+import '../domain/use_cases/search_products.dart';
 import '../domain/use_cases/select_price.dart';
 import '../domain/use_cases/update_product.dart';
 import '../domain/use_cases/update_tier_price.dart';
 import 'drift_barcode_repository.dart';
 import 'drift_category_repository.dart';
 import 'drift_product_repository.dart';
+import 'drift_product_search_repository.dart';
 import 'drift_tier_price_repository.dart';
 import 'drift_unit_repository.dart';
 
@@ -125,6 +130,19 @@ DisableUnit disableUnit(Ref ref) =>
 @Riverpod(keepAlive: true)
 ConvertQuantity convertQuantity(Ref ref) =>
     ConvertQuantity(ref.watch(unitRepositoryProvider));
+
+/// The use case that provisions the default stock unit (`P2-06` follow-up).
+///
+/// A product cannot be stored without a stock unit, and Phase 2 ships no unit
+/// screen, so the form asks this to make sure at least one unit exists. It is
+/// idempotent and audited through [CreateUnit], never through a repository of
+/// its own.
+@Riverpod(keepAlive: true)
+EnsureDefaultStockUnit ensureDefaultStockUnit(Ref ref) =>
+    EnsureDefaultStockUnit(
+      ref.watch(loadUnitsProvider),
+      ref.watch(createUnitProvider),
+    );
 
 /// The category tree as a value a widget can watch.
 ///
@@ -263,3 +281,34 @@ SelectPrice selectPrice(Ref ref) => SelectPrice(
   ref.watch(tierPriceRepositoryProvider),
   ref.watch(productRepositoryProvider),
 );
+
+/// The Drift-backed [ProductSearchRepository].
+///
+/// Reading a derived index is not a business write, so unlike the other
+/// repositories here it takes no audit service and no clock: a rebuild only
+/// re-reads rows `products` already holds. The settings use case is still
+/// injected, because a hit reports a price and a price needs a currency.
+@Riverpod(keepAlive: true)
+ProductSearchRepository productSearchRepository(Ref ref) =>
+    DriftProductSearchRepository(
+      database: ref.watch(appDatabaseProvider),
+      unitOfWork: ref.watch(unitOfWorkProvider),
+      loadBusinessProfile: ref.watch(loadBusinessProfileProvider),
+    );
+
+/// The use case that answers the quick-search box (`P2-06`).
+///
+/// It owns the page bounds, so the screen cannot ask for a page the search was
+/// never meant to serve.
+@Riverpod(keepAlive: true)
+SearchProducts searchProducts(Ref ref) =>
+    SearchProducts(ref.watch(productSearchRepositoryProvider));
+
+/// The use case that rebuilds the search index from `products` (`P2-06`).
+///
+/// Kept as a use case rather than as a call on the repository so repairing a
+/// degraded index is an explicit decision a screen makes, not something a read
+/// can trigger behind the caller's back.
+@Riverpod(keepAlive: true)
+RebuildProductSearchIndex rebuildProductSearchIndex(Ref ref) =>
+    RebuildProductSearchIndex(ref.watch(productSearchRepositoryProvider));

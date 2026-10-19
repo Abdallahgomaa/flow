@@ -41,9 +41,7 @@ final class SearchProducts {
       return const Result<ProductSearchPage>.ok(ProductSearchPage.empty);
     }
 
-    final int size = limit < 1
-        ? 1
-        : (limit > maxLimit ? maxLimit : limit);
+    final int size = limit < 1 ? 1 : (limit > maxLimit ? maxLimit : limit);
 
     return _repository.search(term: trimmed, limit: size, after: after);
   }

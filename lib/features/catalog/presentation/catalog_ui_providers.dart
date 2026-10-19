@@ -203,9 +203,12 @@ Future<Result<ProductFormData>> editProductForm(Ref ref, String productId) =>
 /// Builds a form's inputs: the shop's currency, the option lists, and — when
 /// there is one to edit — the product itself.
 ///
-/// The product read is the one that can fail the screen; the option lists are
-/// treated as decoration, so a catalogue with no categories still lets a product
-/// be created.
+/// The product read is the one thing that fails for a missing product; a missing
+/// category list is decoration, so a catalogue with no categories still lets a
+/// product be created. The stock unit is different: it is a required column with
+/// a foreign key behind it, so before the lists are read the form makes sure the
+/// shop owns at least one unit (`P2-06` follow-up). That call is idempotent and
+/// writes nothing once a unit exists.
 Future<Result<ProductFormData>> _formData(
   Ref ref, {
   required String? productId,
@@ -216,6 +219,13 @@ Future<Result<ProductFormData>> _formData(
   final Currency? shopCurrency = currency.valueOrNull;
   if (shopCurrency == null) {
     return Result<ProductFormData>.err(currency.failureOrNull!);
+  }
+
+  final Result<void> provisioned = await ref.watch(
+    ensureDefaultStockUnitProvider,
+  )();
+  if (provisioned case Err<void>(:final Failure failure)) {
+    return Result<ProductFormData>.err(failure);
   }
 
   final List<Category> categories =

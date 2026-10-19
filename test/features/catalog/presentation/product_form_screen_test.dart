@@ -8,6 +8,8 @@ import 'package:flow/features/catalog/data/catalog_providers.dart';
 import 'package:flow/features/catalog/domain/product.dart';
 import 'package:flow/features/catalog/domain/product_type.dart';
 import 'package:flow/features/catalog/domain/use_cases/create_product.dart';
+import 'package:flow/features/catalog/domain/use_cases/create_unit.dart';
+import 'package:flow/features/catalog/domain/use_cases/ensure_default_stock_unit.dart';
 import 'package:flow/features/catalog/domain/use_cases/update_product.dart';
 import 'package:flow/features/catalog/presentation/catalog_routes.dart';
 import 'package:flow/features/catalog/presentation/catalog_ui_providers.dart';
@@ -227,6 +229,41 @@ void main() {
     expect(log.last.entityId, productId);
 
     expect(find.text('details screen'), findsOneWidget);
+  });
+
+  testWidgets('provisions a stock unit so a brand-new shop can save', (
+    WidgetTester tester,
+  ) async {
+    // A fresh install owns no unit, and Phase 2 ships no unit screen: before the
+    // form offers its picker, the catalogue has to provision one. Without it the
+    // operator could only ever read "choose the unit the stock is counted in" —
+    // an error they have no way to clear.
+    final ProviderContainer container = roleContainer();
+    await pumpForm(tester, container);
+
+    await tester.enterText(fieldWithLabel('Name'), 'Tea');
+    await tester.enterText(fieldWithLabel('Sale price'), '12.50');
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Choose the unit the stock is counted in.'), findsNothing);
+
+    final List<ProductRow> products = await rows(container);
+    expect(products, hasLength(1));
+    expect(products.single.stockUnitCode, EnsureDefaultStockUnit.code);
+
+    // The unit was written once, and through the audited use case: the unit row
+    // and its audit entry come before the product that depends on them.
+    final AppDatabase database = container.read(appDatabaseProvider);
+    final List<UnitRow> units = await database.select(database.units).get();
+    expect(units.map((UnitRow unit) => unit.code), <String>[
+      EnsureDefaultStockUnit.code,
+    ]);
+    final List<AuditLogData> log = await auditEntries(container);
+    expect(log.map((AuditLogData entry) => entry.action), <String>[
+      CreateUnit.auditAction,
+      CreateProduct.auditAction,
+    ]);
   });
 
   testWidgets('refuses a product with no name', (WidgetTester tester) async {

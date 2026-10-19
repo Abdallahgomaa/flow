@@ -568,6 +568,74 @@ final class ConvertQuantityProvider
 
 String _$convertQuantityHash() => r'eaa9d27c65bd35bafb8469fff41759059530ae03';
 
+/// The use case that provisions the default stock unit (`P2-06` follow-up).
+///
+/// A product cannot be stored without a stock unit, and Phase 2 ships no unit
+/// screen, so the form asks this to make sure at least one unit exists. It is
+/// idempotent and audited through [CreateUnit], never through a repository of
+/// its own.
+
+@ProviderFor(ensureDefaultStockUnit)
+final ensureDefaultStockUnitProvider = EnsureDefaultStockUnitProvider._();
+
+/// The use case that provisions the default stock unit (`P2-06` follow-up).
+///
+/// A product cannot be stored without a stock unit, and Phase 2 ships no unit
+/// screen, so the form asks this to make sure at least one unit exists. It is
+/// idempotent and audited through [CreateUnit], never through a repository of
+/// its own.
+
+final class EnsureDefaultStockUnitProvider
+    extends
+        $FunctionalProvider<
+          EnsureDefaultStockUnit,
+          EnsureDefaultStockUnit,
+          EnsureDefaultStockUnit
+        >
+    with $Provider<EnsureDefaultStockUnit> {
+  /// The use case that provisions the default stock unit (`P2-06` follow-up).
+  ///
+  /// A product cannot be stored without a stock unit, and Phase 2 ships no unit
+  /// screen, so the form asks this to make sure at least one unit exists. It is
+  /// idempotent and audited through [CreateUnit], never through a repository of
+  /// its own.
+  EnsureDefaultStockUnitProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'ensureDefaultStockUnitProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$ensureDefaultStockUnitHash();
+
+  @$internal
+  @override
+  $ProviderElement<EnsureDefaultStockUnit> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  EnsureDefaultStockUnit create(Ref ref) {
+    return ensureDefaultStockUnit(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(EnsureDefaultStockUnit value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<EnsureDefaultStockUnit>(value),
+    );
+  }
+}
+
+String _$ensureDefaultStockUnitHash() =>
+    r'2db8641b5614581533d257b036d6d440577f1c44';
+
 /// The category tree as a value a widget can watch.
 ///
 /// The synchronous [loadCategories] hands out the use case; this provider runs
@@ -1517,3 +1585,191 @@ final class SelectPriceProvider
 }
 
 String _$selectPriceHash() => r'b3c3f8e50642fa3773a61a52a2329be776a0ca99';
+
+/// The Drift-backed [ProductSearchRepository].
+///
+/// Reading a derived index is not a business write, so unlike the other
+/// repositories here it takes no audit service and no clock: a rebuild only
+/// re-reads rows `products` already holds. The settings use case is still
+/// injected, because a hit reports a price and a price needs a currency.
+
+@ProviderFor(productSearchRepository)
+final productSearchRepositoryProvider = ProductSearchRepositoryProvider._();
+
+/// The Drift-backed [ProductSearchRepository].
+///
+/// Reading a derived index is not a business write, so unlike the other
+/// repositories here it takes no audit service and no clock: a rebuild only
+/// re-reads rows `products` already holds. The settings use case is still
+/// injected, because a hit reports a price and a price needs a currency.
+
+final class ProductSearchRepositoryProvider
+    extends
+        $FunctionalProvider<
+          ProductSearchRepository,
+          ProductSearchRepository,
+          ProductSearchRepository
+        >
+    with $Provider<ProductSearchRepository> {
+  /// The Drift-backed [ProductSearchRepository].
+  ///
+  /// Reading a derived index is not a business write, so unlike the other
+  /// repositories here it takes no audit service and no clock: a rebuild only
+  /// re-reads rows `products` already holds. The settings use case is still
+  /// injected, because a hit reports a price and a price needs a currency.
+  ProductSearchRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'productSearchRepositoryProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$productSearchRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<ProductSearchRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ProductSearchRepository create(Ref ref) {
+    return productSearchRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ProductSearchRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ProductSearchRepository>(value),
+    );
+  }
+}
+
+String _$productSearchRepositoryHash() =>
+    r'1d21e42a2be6c730f2af1cdebb3e32c327041e1e';
+
+/// The use case that answers the quick-search box (`P2-06`).
+///
+/// It owns the page bounds, so the screen cannot ask for a page the search was
+/// never meant to serve.
+
+@ProviderFor(searchProducts)
+final searchProductsProvider = SearchProductsProvider._();
+
+/// The use case that answers the quick-search box (`P2-06`).
+///
+/// It owns the page bounds, so the screen cannot ask for a page the search was
+/// never meant to serve.
+
+final class SearchProductsProvider
+    extends $FunctionalProvider<SearchProducts, SearchProducts, SearchProducts>
+    with $Provider<SearchProducts> {
+  /// The use case that answers the quick-search box (`P2-06`).
+  ///
+  /// It owns the page bounds, so the screen cannot ask for a page the search was
+  /// never meant to serve.
+  SearchProductsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'searchProductsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$searchProductsHash();
+
+  @$internal
+  @override
+  $ProviderElement<SearchProducts> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  SearchProducts create(Ref ref) {
+    return searchProducts(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SearchProducts value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SearchProducts>(value),
+    );
+  }
+}
+
+String _$searchProductsHash() => r'1f4e0e67978c55a2ad5966dbc2308ccf241c6b42';
+
+/// The use case that rebuilds the search index from `products` (`P2-06`).
+///
+/// Kept as a use case rather than as a call on the repository so repairing a
+/// degraded index is an explicit decision a screen makes, not something a read
+/// can trigger behind the caller's back.
+
+@ProviderFor(rebuildProductSearchIndex)
+final rebuildProductSearchIndexProvider = RebuildProductSearchIndexProvider._();
+
+/// The use case that rebuilds the search index from `products` (`P2-06`).
+///
+/// Kept as a use case rather than as a call on the repository so repairing a
+/// degraded index is an explicit decision a screen makes, not something a read
+/// can trigger behind the caller's back.
+
+final class RebuildProductSearchIndexProvider
+    extends
+        $FunctionalProvider<
+          RebuildProductSearchIndex,
+          RebuildProductSearchIndex,
+          RebuildProductSearchIndex
+        >
+    with $Provider<RebuildProductSearchIndex> {
+  /// The use case that rebuilds the search index from `products` (`P2-06`).
+  ///
+  /// Kept as a use case rather than as a call on the repository so repairing a
+  /// degraded index is an explicit decision a screen makes, not something a read
+  /// can trigger behind the caller's back.
+  RebuildProductSearchIndexProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'rebuildProductSearchIndexProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$rebuildProductSearchIndexHash();
+
+  @$internal
+  @override
+  $ProviderElement<RebuildProductSearchIndex> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  RebuildProductSearchIndex create(Ref ref) {
+    return rebuildProductSearchIndex(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RebuildProductSearchIndex value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<RebuildProductSearchIndex>(value),
+    );
+  }
+}
+
+String _$rebuildProductSearchIndexHash() =>
+    r'b0062a0bab450669f7745bffb924634c585dc7c4';

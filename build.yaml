@@ -10,6 +10,7 @@ targets:
     builders:
       drift_dev:
         options:
-          sqlite:
-            modules:
-              - fts5
+          sql:
+            options:
+              modules:
+                - fts5

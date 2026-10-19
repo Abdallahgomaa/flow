@@ -89,8 +89,7 @@ final class ProductSearchPage {
   int get hashCode => Object.hash(Object.hashAll(hits), next);
 
   @override
-  String toString() =>
-      'ProductSearchPage(${hits.length} hits, next: $next)';
+  String toString() => 'ProductSearchPage(${hits.length} hits, next: $next)';
 
   /// Compares two result lists element by element.
   ///
